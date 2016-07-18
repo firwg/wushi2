@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="of_key_cannot_be_null">产品键值不能为空，请在创建程序时指明产品键值。</string>
+    <string name="of_secret_cannot_be_null">产品密钥不能为空，请在创建程序时指明产品密钥。</string>
+    <string name="of_id_cannot_be_null">产品ID不能为空，请在创建程序时指明应用程序ID。</string>
+    <string name="of_name_cannot_be_null">产品名称不能为空，请在创建程序时指明应用程序名称。</string>
+    <string name="of_unexpected_response_format">无法识别的格式。</string>
+    <string name="of_unknown_server_error">服务器未知错误！</string>
+ 
+    <string name="of_null_icon_url">图标链接地址为空，请在下载图标之前保存该成就。</string>
+    <string name="of_achievement_unlock_null">资源ID为空，无法打开成就。</string>
+    <string name="of_achievement_load_null">资源ID为空，无法下载成就。</string>
+    <string name="of_profile_url_null">图片链接地址为空，请在下载图片前保存该用户。</string>
+    <string name="of_low_memory_profile_pic">您的手机存储空间不够，无法完成此操作，重启可能释放足够空间。</string>
+
+    <string name="of_no">否</string>
+    <string name="of_yes">是</string>
+    <string name="of_ok">确定</string>
+    <string name="of_cancel">取消</string>
+
+    <string name="begin_check">下面一段是需要确认的字符串</string>
+        
+    <string name="of_io_exception_on_download">读写错误</string>
+    <string name="of_cant_compress_blob">压缩blob数据出错。</string>
+    <string name="of_no_blob">分数没有区域下载</string>
+    
+    <string name="of_achievement_unlocked">成就已打开</string>
+ 
+    <string name="of_timeout">没有及时完成请求。</string>
+    <string name="of_bitmap_decode_error">位图解码错误！</string>
+    <string name="of_file_not_found">无此文件</string>
+    <string name="of_error_parsing_error_message">解析错误</string>
+    <string name="of_server_error_code_format">服务器编码为 %1$d</string>
+    <string name="of_ioexception_reading_body">读取异常</string>
+    <string name="of_switched_accounts">切换帐户</string>
+    <string name="of_now_logged_in_as_format">您现在登录为: %1$s</string>
+    <string name="of_profile_pic_changed">您的个人图像已更改!</string>
+    <string name="of_crash_report_query">九城游戏中心无法启动，是否发送错误报告并等待恢复?</string>
+    <string name="of_no_video">您的手机不支持视频播放。</string>
+ 
+    <string name="of_home">首页</string>
+    <string name="of_banned_dialog">该用户或程序已被禁止，无法使用九城游戏中心功能。</string>
+    <string name="of_settings">设置</string>
+    <string name="of_exit_feint">返回</string>
+    <string name="of_offline_notification">离线状态。</string>
+    <string name="of_offline_notification_line2">启用九城游戏中心需要有效的网络连接。</string>
+    <string name="of_score_submitted_notification">分数已提交</string>
+   
+    <string name="of_loading_feint">载入中，请稍候...</string>
+    <string name="of_welcome_back_format">欢迎回来， %1$s</string>
+    
+    <string name="end_check">bbbb</string>
+
+    <string name="of_profile_picture_download_failed">Sorry - there was a problem downloading this profile picture.  Please try again.</string>
+    <string name="of_nodisk">Not enough room on your %1$s. Please free up some disk space and try again.</string>
+    <string name="of_sdcard">sdcard</string>
+    <string name="of_device">device</string>
+	
+	<string name="no_game_in_cp_store">中没有您想要的游戏，请使用其它商城下载</string>
+    <string name="download_game_store">开始下载商城</string>
+    <string name="back_game_store">选择其他商城</string>
+    <string name="download_game_tip">游戏下载提示</string>
+    <string name="old_version_game_store">您的手机中安装的该商城不支持跳转下载游戏功能, 请先下载安装最新的版本</string>
+    <string name="fail_open_game_store">启动该商城失败, 请稍后再次尝试</string>
+    <string name="mm_store">移动MM</string>
+    <string name="emarket_store">天翼空间</string>
+    <string name="wo_store">沃商店</string>
+    <string name="default_store">该商店</string>
+    <string name="cp_store_non_game_tip">中没有您想要的游戏，请使用其他商城下载</string>
+    <string name="uninstall_game_store">您的手机中还没有安装该商城, 请先下载安装该商城</string>
+    <string name="only_for_cp_store_prefix">当前商城仅支持(</string>
+    <string name="only_for_cp_store_suffix">)手机使用</string>
+    <string name="can_not_download_prefix">该游戏暂不提供直接下载，请从</string>
+    <string name="can_not_download_suffix">中下载该游戏</string>
+    <string name="china_mobile">中国移动</string>
+    <string name="china_telecom">中国电信</string>
+    <string name="china_unicom">中国联通</string>
+    <string name="upgrade_version_title">系统消息</string>
+    <string name="load_assets_file_tip">加载assets目录资源文件失败</string>
+		<string name="fail_load_assets_file">请确保已将九城游戏中心SDK中的集成资源文件assets\//webui，全部拷贝至项目的assets\//webui目录下</string>
+    <string name="upgrade_version_tip">九城游戏中心云端服务器已部署新版本. 请重新进入平台, 体验更多新功能！</string>
+
+    <!-- <string name="of_loading_feint">Loading Feint...</string>
+    <string name="of_welcome_back_format">Welcome back %1$s</string> -->
+
+    <string name="of_malformed_request_error">Your request contains the string "//" - please check to make sure you didn\'t omit any resourceID.</string>
+</resources>
