@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-
+//硬件类型
 public enum E_HardwareType
 {
     iPhone3G = 0,
@@ -10,15 +10,18 @@ public enum E_HardwareType
     Max = 3,
 }
 
+
+
 public enum E_WeaponType 
 {
 	None = -1,
-	Katana = 0,
-	Body,
-    Bow,
-	Max,
+	Katana = 0,//刀
+	Body,//身体
+    Bow,//弓箭
+	Max,//
 }
 
+//阻挡状态
 public enum E_BlockState
 {
     None = -1,
@@ -38,64 +41,73 @@ public enum E_KnockdownState
     Fatality,
 }
 
+
+//武器状态
 public enum E_WeaponState
 {
-    NotInHands,
-	Ready,
-	Attacking,
-	Reloading,
-	Empty,
+    NotInHands,//不在手上
+	Ready,//准备着
+	Attacking,//攻击中
+	Reloading,//回收ing
+	Empty,//空
 }
 
+
+//攻击类型
 public enum E_AttackType
 {
 	None = -1,
 	X = 0,
 	O = 1,
-    BossBash = 2,
-    Fatality = 3,
-    Counter = 4,
-    Berserk = 5,
+    BossBash = 2,//Boss猛击
+    Fatality = 3,//致命性
+    Counter = 4,//对立的
+    Berserk = 5,//狂暴的
 	Max = 6,
 }
     
+//敌人类型
 public enum E_EnemyType
 {
 	None = -1,
-    SwordsMan = 0,
-    Peasant = 1,
-    TwoSwordsMan = 2,
-    Bowman = 3,
-    PeasantLow = 4,
-    MiniBoss01 = 5,
-    SwordsManLow = 6,
+    SwordsMan = 0,//剑客
+    Peasant = 1,//农民
+    TwoSwordsMan = 2,//双剑客
+    Bowman = 3,//弓箭手
+    PeasantLow = 4,//矮农
+    MiniBoss01 = 5,//小boss
+    SwordsManLow = 6,//矮剑客
     notUsed03 = 7,
     notUsed04 = 8,
     notUsed05 = 9,
-    BossOrochi = 10,
+    BossOrochi = 10,//大Boss
 	Max
 }
 
+//游戏状态
 public enum E_GameState
 {
-	MainMenu,
-	IngameMenu,
-	Game,
+	MainMenu,//主菜单
+	IngameMenu,//游戏菜单
+	Game,//游戏
 	SaleScreen,
-    Tutorial,
-    Shop,
+    Tutorial,//辅助
+    Shop,//商店
 }
 
+
+//游戏模式
 public enum E_GameType
 {
-	SinglePlayer,
-    ChapterOnly,
-	Survival,
+	SinglePlayer,//单人游戏
+    ChapterOnly,//剧情
+	Survival,//生存模式
     FirstTimeTutorial,
     Tutorial,
     SaleScreen,
 }
 
+//游戏难度
 public enum E_GameDifficulty
 {
     Easy,
@@ -103,30 +115,34 @@ public enum E_GameDifficulty
 	Hard,
 }
 
+
+//伤害类型
 public enum E_DamageType
 {
-    Front,
-    Back,
-    BreakBlock,
-    InKnockdown,
-    Enviroment,
+    Front,//正面
+    Back,//后背
+    BreakBlock,//破防
+    InKnockdown,//由上至下的猛击
+    Enviroment,//周围
 }
 
+//暴击种类
 public enum E_CriticalHitType
 {
     None,
-    Vertical,
-	Horizontal,
+    Vertical,//垂直
+	Horizontal,//水平
 }
 
+//死亡姿势
 public enum E_DeadBodyType
 {
     None = -1,
-    Legs = 0,
-    Beheaded,
-    HalfBody,
-    SliceFrontBack,
-    SliceLeftRight,
+    Legs = 0,//大腿
+    Beheaded,//头颅
+    HalfBody,//上下两半
+    SliceFrontBack,//前后对切
+    SliceLeftRight,//左右对切
     Max,
 }
 
@@ -179,28 +195,34 @@ public enum E_HealtLevelPrice
     Three = 3000,
 }
 
+
+//旋转类型
 public enum E_RotationType
 {
     Left,
     Right
 }
 
+
+//运动类型
 public enum E_MotionType
 {
 	None,
-	Walk,
-	Run,
-    Sprint,
-    Roll,
-    Attack,
-    Block,
-    BlockingAttack,
-    Injury,
-    Knockdown,
-    Death,
-    AnimationDrive,
+	Walk,//行走
+	Run,//跑步
+    Sprint,//全速短跑
+    Roll,//滚动
+    Attack,//攻击
+    Block,//阻挡
+    BlockingAttack,//阻挡时遭受攻击
+    Injury,//受伤
+    Knockdown,//由上至下猛击
+    Death,//死亡
+    AnimationDrive,//动画驱动
 }
 
+
+//移动方向
 public enum E_MoveType
 {
     None,
@@ -213,10 +235,10 @@ public enum E_MoveType
 public enum E_LookType
 {
     None,
-    TrackTarget,
+    TrackTarget,//跟踪目标
 }
 
-
+//互动物体
 public enum E_InteractionObjects
 {
     None,
@@ -226,6 +248,7 @@ public enum E_InteractionObjects
     TriggerAnim,
 }
 
+//互动种类
 public enum E_InteractionType
 {
     None,
@@ -233,6 +256,7 @@ public enum E_InteractionType
     Off
 }
 
+//事件种类
 public enum E_EventTypes
 {
     None,
@@ -247,6 +271,7 @@ public enum E_EventTypes
     FriendInjured,
 }
 
+//方向种类
 public enum E_Direction
 {
     Forward,

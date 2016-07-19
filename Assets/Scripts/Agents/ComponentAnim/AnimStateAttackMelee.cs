@@ -17,16 +17,19 @@ public class AnimStateAttackMelee : AnimState
     Quaternion StartRotation;
     Vector3 StartPosition;
     Vector3 FinalPosition;
-    float CurrentRotationTime;
-    float RotationTime;
-    float MoveTime;
-    float CurrentMoveTime;
-    float EndOfStateTime;
-    float HitTime;
-    float AttackPhaseTime;
+    float CurrentRotationTime;//当前转向所消耗的时间
+    float RotationTime;//转向目标所需要消耗的总时间
+    float MoveTime;//攻击的整个过程并非在原地进行，而是在攻击的过程中会产生位移，身体向前移动一段距离,
+    float CurrentMoveTime;//当前身体位移的时间，用于计算当前应该偏移的位移量。
 
-    bool RotationOk = false;
-    bool PositionOK = false;
+    float EndOfStateTime;//状态，结束的时间戳
+
+    float HitTime;//伤害结算的时间戳
+
+    float AttackPhaseTime;//攻击阶段结束的时间戳
+
+    bool RotationOk = false;//标志是否转向完毕
+    bool PositionOK = false;//表示是否
    // bool MovingToAttackPos;
 
     bool Critical = false;
@@ -75,9 +78,10 @@ public class AnimStateAttackMelee : AnimState
 
     override public void Update()
     {
+        Debug.LogError("AnimStateAttackMelee.Update()");
         if (State == E_State.E_PREPARING)
         {
-
+            Debug.Log("State == E_State.E_PREPARING");
             //在准备阶段设置位置 和旋转角度
             bool dontMove = false;
             if (RotationOk == false)
@@ -128,8 +132,17 @@ public class AnimStateAttackMelee : AnimState
         }
         else if (State == E_State.E_ATTACKING)
         {
+            Debug.Log("State == E_State.E_ATTACKING");
+
             //攻击前摇时间计时
             CurrentMoveTime += Time.deltaTime;
+
+            Debug.Log("CurrentMoveTime=" + CurrentMoveTime);
+
+            Debug.Log("Time.timeSinceLevelLoad=" + Time.timeSinceLevelLoad);
+
+            Debug.Log("AttackPhaseTime=" + AttackPhaseTime);
+
 
             if (AttackPhaseTime < Time.timeSinceLevelLoad)
             {
@@ -183,6 +196,8 @@ public class AnimStateAttackMelee : AnimState
         }
         else if (State == E_State.E_FINISHED && EndOfStateTime <= Time.timeSinceLevelLoad)
         {
+            Debug.Log("State == E_State.E_FINISHED");
+
             Action.AttackPhaseDone = true;
             //Debug.Log(Time.timeSinceLevelLoad + " attack finished");
             Release();
@@ -191,6 +206,7 @@ public class AnimStateAttackMelee : AnimState
 
     private void PlayAnim()
     {
+        Debug.LogError("PlayAnim");
         CrossFade(AnimAttackData.AnimName, 0.2f);
 
         // when to do hit !!!
@@ -198,8 +214,9 @@ public class AnimStateAttackMelee : AnimState
 
         StartPosition = Transform.position;
         FinalPosition = StartPosition + Transform.forward * AnimAttackData.MoveDistance;
-        MoveTime = AnimAttackData.AttackMoveEndTime - AnimAttackData.AttackMoveStartTime;
 
+        MoveTime = AnimAttackData.AttackMoveEndTime - AnimAttackData.AttackMoveStartTime;
+        Debug.LogError(MoveTime + "=MoveTime");
         EndOfStateTime = Time.timeSinceLevelLoad + AnimEngine[AnimAttackData.AnimName].length * 0.9f;
 
         if (AnimAttackData.LastAttackInCombo)
@@ -301,6 +318,10 @@ public class AnimStateAttackMelee : AnimState
 
         RotationOk = RotationTime == 0;
         PositionOK = MoveTime == 0;
+
+        Debug.LogError("MoveTime=" + MoveTime);
+        Debug.Log("RotationOk=" + RotationOk);
+        Debug.Log("PositionOK=" + PositionOK);
 
         CurrentRotationTime = 0;
         CurrentMoveTime = 0;

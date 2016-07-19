@@ -9,10 +9,10 @@ using UnityEngine;
 using System.Collections;
 
 
-
+//动画状态机 基类
 public class AnimState : System.Object
 {
-	protected Animation AnimEngine;
+	protected Animation AnimEngine;//存放所有动画数据
 	private bool m_Finished = true;
 	protected Agent Owner;
 	protected Transform Transform;
