@@ -77,6 +77,8 @@ public class AnimStateAttackMelee : AnimState
     {
         if (State == E_State.E_PREPARING)
         {
+
+            //在准备阶段设置位置 和旋转角度
             bool dontMove = false;
             if (RotationOk == false)
             {
@@ -166,6 +168,8 @@ public class AnimStateAttackMelee : AnimState
                 else 
                     Mission.Instance.CurrentGameZone.DoMeleeDamage(Owner, Action.Target, Owner.BlackBoard.WeaponSelected, AnimAttackData, Critical, Knockdown);
 
+
+
                 if (AnimAttackData.LastAttackInCombo || AnimAttackData.ComboStep == 3 )
                     CameraBehaviour.Instance.ComboShake(AnimAttackData.ComboStep - 3);
 
@@ -224,6 +228,11 @@ public class AnimStateAttackMelee : AnimState
 
     }
 
+
+
+
+
+    //状态初始化，为攻击中状态的更新做好数据的准备，目标等
     override protected void Initialize(AgentAction action)
     {
         base.Initialize(action);

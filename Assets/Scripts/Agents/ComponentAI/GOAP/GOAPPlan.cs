@@ -13,8 +13,11 @@ using UnityEngine;
 
 public class GOAPPlan : System.Object
 {
+    //引用所有GOAPAction
 	private List<GOAPAction> m_Actions = new List<GOAPAction>();
-	private int CurrentStep;
+    //当前正在执行的GOAPAction的Index
+    private int CurrentStep;
+    //GOAPPlan 拥有者
 	private Agent Owner;
 
     public int NumberOfSteps { get { return m_Actions.Count; } }
@@ -157,7 +160,7 @@ public class GOAPPlan : System.Object
 		return true;// no more actions
 	}
 
-   /* public override string ToString()
+    public override string ToString()
     {
         string s = "GOAPPlan : ";
 
@@ -168,6 +171,6 @@ public class GOAPPlan : System.Object
 
         return s;
 
-    }*/
+    }
 }
 

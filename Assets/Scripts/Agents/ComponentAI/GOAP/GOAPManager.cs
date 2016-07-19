@@ -125,6 +125,7 @@ class GOAPManager : System.Object
                     ReplanCurrentGoal();
                 }
 
+                //如果当前目标的计划已经完成
 				if (CurrentGoal.IsPlanFinished())
 				{// goal is finished, so clear it and make new one
 
@@ -321,7 +322,6 @@ class GOAPManager : System.Object
         }
 
         CurrentGoal = goal;
-        Debug.Log(goal);
         CurrentGoal.Activate(plan);       
     }
 
@@ -510,6 +510,8 @@ class GOAPManager : System.Object
             return null;
         }
 
+        Debug.LogError(goal);
+        Debug.LogError(plan.ToString());
 		return plan;
 	}
 }
