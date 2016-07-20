@@ -53,6 +53,7 @@ public class AnimState : System.Object
 
 	virtual public bool IsFinished() { return m_Finished; }
 
+
 	public virtual void SetFinished(bool finished)  { m_Finished = finished; } // state is finished or not
 
 

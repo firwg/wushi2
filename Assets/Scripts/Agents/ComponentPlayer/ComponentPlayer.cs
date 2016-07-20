@@ -53,7 +53,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
     private Transform Transform;
     private float StepTime;
     private int Experience;
-
+      
     private bool UseMode = false;
 
 
