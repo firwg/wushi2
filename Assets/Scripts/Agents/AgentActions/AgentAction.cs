@@ -8,6 +8,9 @@
 
 using UnityEngine;
 
+/// <summary>
+/// AgentAction是携带了对应的AnimState所需要的一些信息，是状态类信使的角色。
+/// </summary>
 public class AgentAction : System.Object
 {
 	public enum  E_State{

@@ -26,7 +26,7 @@ public class AnimStateAttackMelee : AnimState
 
     float HitTime;//伤害结算的时间戳
 
-    float AttackPhaseTime;//攻击阶段结束的时间戳
+    float AttackPhaseTime;//连击攻击阶段结束的时间戳
 
     bool RotationOk = false;//标志是否转向完毕
     bool PositionOK = false;//表示是否
@@ -47,11 +47,11 @@ public class AnimStateAttackMelee : AnimState
     {
         /*if(Owner.IsPlayer == false)
             Time.timeScale = 0.2f;*/
-
         base.OnActivate(action);
-
     }
 
+
+    //FSM每一帧检测当前状态是否完成，IsFinished=true时的时候调用OnDeactivate，
     override public void OnDeactivate()
     {
         Action.SetSuccess();
@@ -78,7 +78,6 @@ public class AnimStateAttackMelee : AnimState
 
     override public void Update()
     {
-        Debug.LogError("AnimStateAttackMelee.Update()");
         if (State == E_State.E_PREPARING)
         {
             Debug.Log("State == E_State.E_PREPARING");
@@ -132,18 +131,10 @@ public class AnimStateAttackMelee : AnimState
         }
         else if (State == E_State.E_ATTACKING)
         {
-            Debug.Log("State == E_State.E_ATTACKING");
-
-            //攻击前摇时间计时
+            //开始移动的时间戳更新
             CurrentMoveTime += Time.deltaTime;
 
-            Debug.Log("CurrentMoveTime=" + CurrentMoveTime);
-
-            Debug.Log("Time.timeSinceLevelLoad=" + Time.timeSinceLevelLoad);
-
-            Debug.Log("AttackPhaseTime=" + AttackPhaseTime);
-
-
+            //检测是否完成攻击：随着timeSinceLevelLoad超过AttackPhaseTime的时候，标志着攻击流程的完成，进入下一个攻击状态
             if (AttackPhaseTime < Time.timeSinceLevelLoad)
             {
                 //Debug.Log(Time.timeSinceLevelLoad + " attack phase done");
@@ -154,6 +145,7 @@ public class AnimStateAttackMelee : AnimState
             if (CurrentMoveTime >= MoveTime)
                CurrentMoveTime = MoveTime;
 
+            //位移移动
             if (CurrentMoveTime > 0 && CurrentMoveTime <= MoveTime)
             {
                 float progress = Mathf.Min(1.0f, CurrentMoveTime / MoveTime);
@@ -167,6 +159,7 @@ public class AnimStateAttackMelee : AnimState
                // Debug.Log(Time.timeSinceLevelLoad + " moving");
             }
 
+            //当没有进行攻击结算，并且时间到了的时候 进行攻击结算
             if(Action.Hit == false && HitTime <= Time.timeSinceLevelLoad)
             {
                 Action.Hit = true;
@@ -206,26 +199,31 @@ public class AnimStateAttackMelee : AnimState
 
     private void PlayAnim()
     {
-        Debug.LogError("PlayAnim");
+        //切换动画
         CrossFade(AnimAttackData.AnimName, 0.2f);
 
-        // when to do hit !!!
+        // 计算 攻击结算时间
         HitTime = Time.timeSinceLevelLoad + AnimAttackData.HitTime;
 
+        //记录起始位置和最终应该到达位置
         StartPosition = Transform.position;
         FinalPosition = StartPosition + Transform.forward * AnimAttackData.MoveDistance;
 
+        //计算状态中 位移移动的时间总长度 以及 标记移动的时间戳（负数，0开始移动）
         MoveTime = AnimAttackData.AttackMoveEndTime - AnimAttackData.AttackMoveStartTime;
-        Debug.LogError(MoveTime + "=MoveTime");
+        CurrentMoveTime = -AnimAttackData.AttackMoveStartTime; // move a little bit later
+
+
+        //状态结束的时间戳
         EndOfStateTime = Time.timeSinceLevelLoad + AnimEngine[AnimAttackData.AnimName].length * 0.9f;
 
+        //连招时间戳的计算
         if (AnimAttackData.LastAttackInCombo)
             AttackPhaseTime = Time.timeSinceLevelLoad + AnimEngine[AnimAttackData.AnimName].length * 0.9f;
         else
             AttackPhaseTime = Time.timeSinceLevelLoad + AnimAttackData.AttackEndTime;
 
-        CurrentMoveTime = -AnimAttackData.AttackMoveStartTime; // move a little bit later
-
+        //镜头动画的计算
         if (Action.Target && Action.Target.IsAlive)
         {
             if(Critical)
@@ -241,7 +239,6 @@ public class AnimStateAttackMelee : AnimState
                 CameraBehaviour.Instance.Invoke("InterpolateScaleFovBack", 0.8f);
             }
         }
-
 
     }
 
@@ -271,15 +268,22 @@ public class AnimStateAttackMelee : AnimState
             Debug.LogError("AnimAttackData == null");
 
         StartRotation = Transform.rotation;
+        Debug.Log("StartRotation=" + StartRotation);
+
         StartPosition = Transform.position;
 
         float angle = 0;
 
-        bool backstab = false;
+        bool backstab = false;//是否敌人是否背对着自己
 
         float distance = 0;
+
+
+        //如果有目标
         if (Action.Target != null)
         {
+
+            //计算与目标之间的直线距离
             Vector3 dir = Action.Target.Position - Transform.position;
             distance = dir.magnitude;
 
@@ -297,8 +301,10 @@ public class AnimStateAttackMelee : AnimState
                 dir = Transform.forward;
             }
 
-
+            //设置最终的转向
             FinalRotation.SetLookRotation(dir);
+
+
 
             if (distance < Owner.BlackBoard.WeaponRange)
                 FinalPosition = StartPosition;
@@ -311,17 +317,17 @@ public class AnimStateAttackMelee : AnimState
         else
         {
             FinalRotation.SetLookRotation(Action.AttackDir);
+            Debug.Log("FinalRotation=" + FinalRotation);
 
             RotationTime = Vector3.Angle(Transform.forward, Action.AttackDir) / 720.0f;
             MoveTime = 0;
         }
 
+
+
         RotationOk = RotationTime == 0;
         PositionOK = MoveTime == 0;
 
-        Debug.LogError("MoveTime=" + MoveTime);
-        Debug.Log("RotationOk=" + RotationOk);
-        Debug.Log("PositionOK=" + PositionOK);
 
         CurrentRotationTime = 0;
         CurrentMoveTime = 0;

@@ -209,6 +209,8 @@ public class Agent : MonoBehaviour
         BlackBoard.Reset();
     }
 
+
+    //player Agent更新
 	void LateUpdate()
 	{
         if (IsPlayer == false)
@@ -223,10 +225,16 @@ public class Agent : MonoBehaviour
         UpdateAgent();
 	}
 
+
+
+    //敌人的Agent更新
     void FixedUpdate()
     {
         if (IsPlayer)
+        {
+            Debug.Log(transform.rotation);
             return;
+        }
 
         UpdateAgent();
         WorldState.SetWSProperty(E_PropKey.E_IDLING, m_GoalManager.CurrentGoal == null);

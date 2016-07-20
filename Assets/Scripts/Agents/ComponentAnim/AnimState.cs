@@ -14,8 +14,8 @@ public class AnimState : System.Object
 {
 	protected Animation AnimEngine;//存放所有动画数据
 	private bool m_Finished = true;
-	protected Agent Owner;
-	protected Transform Transform;
+	protected Agent Owner;//代理
+	protected Transform Transform;//
     protected Transform RootTransform;
 
 
@@ -63,29 +63,34 @@ public class AnimState : System.Object
     {
         //if (Owner.debugAnims) Debug.Log(Time.timeSinceLevelLoad + " " + this.ToString() + " Initialize " + " by " + (action != null ? action.ToString() : "nothing"));
     }
-
+    //就算是不同的动画状态，都会或多或少的牵扯到对于位移的改变，所以需要在状态基类中 写入Move函数
     protected bool Move(Vector3 velocity, bool slide = true )
     {
         Vector3 old = Transform.position;
 
+        //重力应用
         Transform.position += Vector3.up * Time.deltaTime;
+        velocity.y -= 9 * Time.deltaTime;//重力加速度的影响 对 速度的影响
 
-        velocity.y -= 9 * Time.deltaTime;
+        //执行位移的移动,因为需要对碰撞做出反应 所以需要使用CharacterController
         CollisionFlags flags = Owner.CharacterController.Move(velocity);
 
         //Debug.Log("move " + flags.ToString());
 
+        #region  Move Revise
+        //根据碰撞信息 对位移的改变进行修正
         if (slide == false && (flags & CollisionFlags.Sides) != 0)
         {
             Transform.position = old;
             return false;
         }
-
+        
         if ((flags & CollisionFlags.Below) == 0)
         {
             Transform.position = old;
             return false;
         }
+        #endregion
 
         return true;
     }

@@ -15,10 +15,8 @@ public interface IActionHandler
     void HandleAction(AgentAction a); 
 }
 
-
-
 /// <summary>
-/// 数据的储存
+/// 持有关键数据的引用，所以激活的AgentAction，每一帧对于不激活的agentaction进行回收
 /// </summary>
 [System.Serializable]
 public class BlackBoard
@@ -404,6 +402,8 @@ public class BlackBoard
     {
         IdleTimer += Time.deltaTime;
 
+
+        //从引用中剔除已经完成的AgentAction的引用，在工厂中回收
         for (int i = 0; i < m_ActiveActions.Count; i++)
         {
             if (m_ActiveActions[i].IsActive())
@@ -414,6 +414,8 @@ public class BlackBoard
 
             return;
         }
+
+
 
         if(DesiredTarget && DesiredTarget.IsAlive == false)
             DesiredTarget = null;
@@ -428,6 +430,7 @@ public class BlackBoard
 
     private void ActionDone(AgentAction action)
     {
+        #region  //
         /*if(action.IsSuccess())
         {
             /*if (action is AgentActionGoTo && (action as AgentActionGoTo).FinalPosition == DesiredPosition)
@@ -453,7 +456,7 @@ public class BlackBoard
                 DesiredAnimation = null;
             }
         }*/
-
+        #endregion
         AgentActionFactory.Return(action);
     }
 
