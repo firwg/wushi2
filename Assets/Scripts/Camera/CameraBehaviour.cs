@@ -1,8 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
+
+
+
+
+/// <summary>
+/// 相机的控制 关键在于对于相机的三个参数进行控制 field of World ，transform.forwad，transform.position，
+/// </summary>
 public class CameraBehaviour : MonoBehaviour
 {
+
+    void OnDrawGizmos()
+    {
+
+        Gizmos.color = Color.white;
+
+        Gizmos.DrawSphere(lookAtPosition, 0.2f);
+        Gizmos.DrawSphere(transform.position, 0.2f);
+
+        Gizmos.DrawLine(transform.position, lookAtPosition);
+
+        //Gizmos.DrawWireCube((GetComponent<Collider>() as BoxCollider).center + transform.position, (GetComponent<Collider>() as BoxCollider).size);
+
+    }
+
 
 
 
@@ -10,11 +32,19 @@ public class CameraBehaviour : MonoBehaviour
     public Animation Animation;
     private Animation ParentAnimation;
 
+    public Camera camera;
+
+
 
     private CameraOffsetBehaviour Offset;
 
     private Transform CameraTransform;
-    private Transform TargetTransform;
+    private Transform PlayerTransform;
+    private BlackBoard PlayerBlackBoard;
+
+    public static Vector3 lookAt;
+    public Vector3 lookAtPosition;
+
 
     public static CameraBehaviour Instance;
     float DisabledTime = 0;
@@ -49,6 +79,7 @@ public class CameraBehaviour : MonoBehaviour
         Instance = this;
         Animation = Camera.main.GetComponent<Animation>();
         ParentAnimation = GetComponent<Animation>();
+
     }
 
     void Start()
@@ -64,25 +95,27 @@ public class CameraBehaviour : MonoBehaviour
         Offset = Target.GetComponent("CameraOffsetBehaviour") as CameraOffsetBehaviour;
 
         CameraTransform = transform;
+        PlayerTransform = Target.transform;
+        PlayerBlackBoard = Target.GetComponent<Agent>().BlackBoard;
 
-        TargetTransform = Target.transform;
+        //AttTargetTransform = Target.GetComponent<Agent>().BlackBoard.DesiredTarget.transform;
 
-      //  CameraTransform.position = Offset.GetCameraPosition();
+        //  CameraTransform.position = Offset.GetCameraPosition();
 
-     /*   Vector3 dir = CameraTransform.forward;
-        dir.y = 0;
-        dir.Normalize();
-        Vector3 t = TargetTransform.position;
-        t += dir * 1.5f;
+        /*   Vector3 dir = CameraTransform.forward;
+           dir.y = 0;
+           dir.Normalize();
+           Vector3 t = TargetTransform.position;
+           t += dir * 1.5f;
 
-        CameraTransform.LookAt(t);*/
+           CameraTransform.LookAt(t);*/
 
 
         CurrentFovTime = 0;
         FovTime = 0;
         FovStart = 0;
         FovCameraEnd = 0;
-        BaseFov = CurrentCameraFov = Camera.main.fov;
+        BaseFov = CurrentCameraFov = Camera.main.fieldOfView;
         FovCameraOk = true;
         TimeScaleCurrent = 1;
         ShiftOk = true;
@@ -93,34 +126,67 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (Game.Instance.GameState == E_GameState.Game)
         {
-            //UpdateFov();
-            //UpdateSloMotion();
-    //        UpdatePPE();
+            UpdateFov();
+            UpdateSloMotion();
+            //UpdatePPE();
         }
 
         if (DisabledTime >= Time.timeSinceLevelLoad)
             return;
 
-        // Where should our camera be looking right now?
+        // Where should our camera be looking right now?更新相机所在的位置
         Vector3 goalPosition = Offset.GetCameraPosition();
-
         CameraTransform.position = Vector3.Lerp(CameraTransform.position, goalPosition, Time.deltaTime * 4);
 
-        Vector3 dir = CameraTransform.forward;
-        dir.y = 0;
-        dir.Normalize();
-        Vector3 t = TargetTransform.position;
-        t += dir * 0.7f;
 
-        Vector3 lookAt = t - CameraTransform.position;
+        //更新相机的朝向
+        if (PlayerBlackBoard.DesiredTarget == null)
+        {
+            //Vector3 dir = CameraTransform.forward;
+            //Debug.Log("CameraTransform.forward=" + dir);
+            //dir.y = 0;
+            //dir.Normalize();
+            //Debug.Log("dir=" + dir);
+
+            //Debug.Log("PlayerTransform.position=" + PlayerTransform.position);
+            lookAtPosition = PlayerTransform.position;
+            //t += dir * 0.7f;
+        }
+        else
+        {
+            Vector3 targetPos = PlayerBlackBoard.DesiredTarget.transform.position;
+
+
+            if (camera != null)
+            {
+                Vector3 pos = camera.WorldToViewportPoint(targetPos);
+                if (pos.x > 0.1F)
+
+                    Debug.Log("target is on the right side!");
+                else
+                    Debug.Log("target is on the left side!");
+            }
+            lookAtPosition = new Vector3((PlayerTransform.position.x+ targetPos.x)/2 , (PlayerTransform.position.y + targetPos.y) / 2,(PlayerTransform.position.z + targetPos.z) / 2);
+        }
+
+        //Debug.Log("t=" + t);
+        lookAt = lookAtPosition - CameraTransform.position;
         lookAt.Normalize();
+
+
+
+        //Debug.Log("lookAt="+ lookAt);
 
         CameraTransform.forward = Vector3.Lerp(CameraTransform.forward, lookAt, Time.deltaTime * 4);
     }
 
 
 
-
+    public bool IsVisibleFrom(Renderer renderer, Camera camera)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(camera);
+        return GeometryUtility.TestPlanesAABB(planes, renderer.bounds);
+    }
 
 
     public void PlayCameraAnim(string animName, bool overrideBehaviour, bool fade)
@@ -170,7 +236,7 @@ public class CameraBehaviour : MonoBehaviour
         Vector3 dir = CameraTransform.forward;
         dir.y = 0;
         dir.Normalize();
-        Vector3 t = TargetTransform.position;
+        Vector3 t = PlayerTransform.position;
         t += dir * 0.7f;
 
         Vector3 lookAt = t - CameraTransform.position;
@@ -224,7 +290,7 @@ public class CameraBehaviour : MonoBehaviour
             if (CurrentFovTime >= 0)
                 CurrentCameraFov = Mathfx.Hermite(FovStart, FovCameraEnd, CurrentFovTime / FovTime);
         }
-        Camera.main.fov = CurrentCameraFov;
+        Camera.main.fieldOfView = CurrentCameraFov;
     }
 
     public void InterpolateTimeScale(float newTimeScale, float inTime)

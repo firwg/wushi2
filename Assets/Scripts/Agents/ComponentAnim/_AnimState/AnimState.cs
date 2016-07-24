@@ -76,7 +76,8 @@ public class AnimState : System.Object
         CollisionFlags flags = Owner.CharacterController.Move(velocity);
 
         //Debug.Log("move " + flags.ToString());
-
+        //Debug.Log("CollisionFlags.Sides "+ CollisionFlags.Sides);
+        //Debug.Log("flags & CollisionFlags.Sides " + (flags & CollisionFlags.Sides));
         #region  Move Revise
         //根据碰撞信息 对位移的改变进行修正
         if (slide == false && (flags & CollisionFlags.Sides) != 0)
@@ -84,7 +85,7 @@ public class AnimState : System.Object
             Transform.position = old;
             return false;
         }
-        
+
         if ((flags & CollisionFlags.Below) == 0)
         {
             Transform.position = old;

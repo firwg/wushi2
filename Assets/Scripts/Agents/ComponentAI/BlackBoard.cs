@@ -186,6 +186,8 @@ public class BlackBoard
 
     #region Aditional informations
     [System.NonSerialized]
+    public Vector3 CameraDirection;
+    [System.NonSerialized]
     public Vector3 DesiredPosition;
     [System.NonSerialized]
     public Vector3 DesiredDirection;
@@ -310,11 +312,17 @@ public class BlackBoard
                 case AgentOrder.E_OrderType.E_GOTO:
                     Owner.WorldState.SetWSProperty(E_PropKey.E_AT_TARGET_POS, false);
                     DesiredPosition = order.Position;
-                    DesiredDirection = order.Direction;
+                    //Debug.Log("DesiredPosition="+ DesiredPosition);
+                    //float van = Mathf.Atan2(2, 5);
+                    CameraDirection.y = 0;
+                   Quaternion q = Quaternion.FromToRotation(new Vector3(0, 0, 1), CameraDirection);
+                    DesiredDirection = q*order.Direction;
+                    Debug.Log("DesiredDirection=" + DesiredDirection);
                     MoveSpeedModifier = order.MoveSpeedModifier;
                     break;
                 case AgentOrder.E_OrderType.E_DODGE:
-                    DesiredDirection = order.Direction;
+                    Quaternion qq = Quaternion.FromToRotation(new Vector3(0, 0, 1), CameraDirection);
+                    DesiredDirection = qq * order.Direction;
                     //Debug.Log(Time.timeSinceLevelLoad + " order arrived " + order.Type);
                     break;
                 case AgentOrder.E_OrderType.E_USE:

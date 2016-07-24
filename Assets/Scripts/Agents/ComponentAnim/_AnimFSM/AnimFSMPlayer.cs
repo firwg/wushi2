@@ -24,7 +24,6 @@ public class AnimFSMPlayer: AnimFSM
 
 	public override void Initialize()
 	{
-
 		AnimStates.Add(new AnimStateIdle(AnimEngine, Owner)); //E_MyAnimState.E_IDLE
 		AnimStates.Add(new AnimStateGoTo(AnimEngine, Owner)); //E_MyAnimState.E_GOTO
         AnimStates.Add(new AnimStateMove(AnimEngine, Owner)); //E_MyAnimState.E_MOVE

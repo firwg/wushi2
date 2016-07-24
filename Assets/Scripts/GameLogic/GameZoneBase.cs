@@ -1,4 +1,6 @@
-using UnityEngine;using System.Collections;using System.Collections.Generic;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 
 public class GameZoneBaze : MonoBehaviour
@@ -392,6 +394,7 @@ public class GameZoneBaze : MonoBehaviour
             return null;
 
         return GetNearestAliveEnemy(agent.Position + dir, agent.Position + dir * 3, maxRadius, agent);
-    }
+    }
 
-}
+
+}

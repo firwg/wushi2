@@ -54,9 +54,11 @@ public class AnimStateAttackMelee : AnimState
     //FSM每一帧检测当前状态是否完成，IsFinished=true时的时候调用OnDeactivate，
     override public void OnDeactivate()
     {
+        //if (Owner.IsPlayer)
+        //    Owner.BlackBoard.DesiredTarget = null;
+
         Action.SetSuccess();
         Action = null;
-        
         base.OnDeactivate();
     }
 

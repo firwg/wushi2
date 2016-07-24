@@ -232,7 +232,7 @@ public class Agent : MonoBehaviour
     {
         if (IsPlayer)
         {
-            Debug.Log(transform.rotation);
+            //Debug.Log(transform.rotation);
             return;
         }
 

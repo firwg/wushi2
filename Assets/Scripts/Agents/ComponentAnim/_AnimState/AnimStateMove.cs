@@ -59,15 +59,24 @@ public class AnimStateMove : AnimState
 
         MaxSpeed = Mathf.Max(Owner.BlackBoard.MaxWalkSpeed, Owner.BlackBoard.MaxRunSpeed * Owner.BlackBoard.MoveSpeedModifier);
 
-		// Smooth the speed based on the current target direction
-		float curSmooth = Owner.BlackBoard.SpeedSmooth * Time.deltaTime;
+        //Debug.Log("Owner.BlackBoard.MaxWalkSpeed" + Owner.BlackBoard.MaxWalkSpeed);
+        //Debug.Log("Owner.BlackBoard.MaxRunSpeed =" + Owner.BlackBoard.MaxRunSpeed);
+        //Debug.Log("Owner.BlackBoard.MoveSpeedModifier =" + Owner.BlackBoard.MoveSpeedModifier);
+
+
+        // Smooth the speed based on the current target directions
+        float curSmooth = Owner.BlackBoard.SpeedSmooth * Time.deltaTime;
 
 		Owner.BlackBoard.Speed = Mathf.Lerp(Owner.BlackBoard.Speed, MaxSpeed, curSmooth);
 		Owner.BlackBoard.MoveDir = Owner.BlackBoard.DesiredDirection;
 
+        //Debug.Log("Owner.BlackBoard.Speed ="+ Owner.BlackBoard.Speed);
 		// MOVE
 		if(Move(Owner.BlackBoard.MoveDir * Owner.BlackBoard.Speed * Time.deltaTime) == false)
+        {
+            Debug.Log(Move(Owner.BlackBoard.MoveDir * Owner.BlackBoard.Speed * Time.deltaTime) == false);
             Release();
+        }
 
         E_MotionType motion = GetMotionType();
         if (motion != Owner.BlackBoard.MotionType)

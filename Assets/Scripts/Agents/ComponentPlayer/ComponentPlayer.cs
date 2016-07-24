@@ -18,6 +18,8 @@ public static class Player
 [RequireComponent(typeof(AnimComponent))]
 
 
+
+//设置一些基础属性的设置，操作的输入对于blackboard的属性的设置
 public class ComponentPlayer : MonoBehaviour, IActionHandler
 {
 	enum E_TouchCommandType
@@ -232,13 +234,13 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
     void Update()
     {
+
         if (Owner.BlackBoard.Stop)
         {
             LastAttacketTarget = null;
             ComboProgress.Clear();
             ClearBufferedOrder();
             CreateOrderStop();
-
             Controls.Update();
             return;
         }
@@ -250,7 +252,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
         }
 
         Controls.Update();
-
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -273,7 +274,11 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
             //CreateWeaponShow();
             CreateOrderAttack(E_AttackType.X);
         }
-
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //CreateWeaponShow();
+            CreateOrderUse();
+        }
 
 
         #region  输入
@@ -549,9 +554,10 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
             return;
 
         AgentOrder order = AgentOrderFactory.Create(AgentOrder.E_OrderType.E_GOTO);
+        Owner.BlackBoard.CameraDirection = CameraBehaviour.lookAt;
         order.Direction = Controls.Joystick.Direction;
-        order.MoveSpeedModifier = Controls.Joystick.Force;
-
+        order.MoveSpeedModifier = 0.6f; //Controls.Joystick.Force;
+        //Debug.Log("order.MoveSpeedModifier=" + order.MoveSpeedModifier);
         Owner.BlackBoard.OrderAdd(order);
     }
 

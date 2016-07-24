@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class CameraOffsetBehaviour : MonoBehaviour
 {
-    public Vector3 DefaultOffset = new Vector3(0, 8, -4);
+    public Vector3 DefaultOffset = new Vector3(0, 2, -5);
 
     GameObject Offset;
     Transform OffsetTransform;
@@ -16,14 +16,27 @@ public class CameraOffsetBehaviour : MonoBehaviour
 
         Offset = new GameObject("CameraOffset");
         OffsetTransform = Offset.transform;
-        OffsetTransform.position = OffsetTransform.TransformPoint(DefaultOffset);
+        Debug.Log("DefaultOffset="+ DefaultOffset);
+
+        OffsetTransform.position = DefaultOffset;//OffsetTransform.TransformPoint(DefaultOffset);
+        Debug.Log("OffsetTransform.position="+OffsetTransform.position);
 	}
 	
 
     public Vector3 GetCameraPosition()
     {
-        return OffsetTransform.position * 0.9f + MyTransform.position;
+        return OffsetTransform.position + MyTransform.position; //* 0.9f + MyTransform.position;
     }
+
+
+    public void Rotation()
+    {
+        Quaternion q = new Quaternion(0, 1, 0, 0.1f);
+        MyTransform.position = q * MyTransform.position;
+    }
+
+
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -49,9 +62,9 @@ public class CameraOffsetBehaviour : MonoBehaviour
                 else
                 {
                     pos.Add(cameraVolume.CameraOffset.localPosition);
-                    //iTween.moveToBezier(Offset, cameraVolume.Time, 0, pos);
+                    iTween.moveToBezier(Offset, cameraVolume.Time, 0, pos);
                 }
-                //iTween.moveTo(Offset, 0.5f, 0, cameraVolume.CameraOffset.transform.localPosition);
+                iTween.moveTo(Offset, 0.5f, 0, cameraVolume.CameraOffset.transform.localPosition);
             }
         }
 
@@ -66,8 +79,8 @@ public class CameraOffsetBehaviour : MonoBehaviour
     /// 
     void Activate(Transform t)
     {
-     //   Debug.Log("activate " + t.position);
-        OffsetTransform.position = t.TransformDirection(DefaultOffset);
+        //Debug.Log("activate " + t.position);
+        //OffsetTransform.position = t.TransformDirection(DefaultOffset);
         CameraBehaviour.Instance.Reset();
         //CameraBehaviour.Instance.Activate(t.position + Vector3.up, t.position + t.forward);
     }

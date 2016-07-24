@@ -154,7 +154,7 @@ public class DeadHumanCache
         {
             Cache[i] = new List<GameObject>();
 
-           // Debug.Log("Loading prefab " + resources[(int)EnemyType][i]);
+            // Debug.Log("Loading prefab " + resources[(int)EnemyType][i]);
 
 
             if (EnemyType != E_EnemyType.Bowman && EnemyType != E_EnemyType.SwordsMan && EnemyType != E_EnemyType.TwoSwordsMan && EnemyType != E_EnemyType.Peasant && EnemyType != E_EnemyType.PeasantLow && EnemyType != E_EnemyType.SwordsManLow)
