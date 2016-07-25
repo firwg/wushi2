@@ -10,8 +10,6 @@ public class AnimSetEnemyPeasant : AnimSet
 	{
         AnimAttacksSwordL = new AnimAttackData("attackPeasant", null, 0.8f, 0.68f, 0.55f, 0.75f, 0.8f, 5, 20, 1, E_CriticalHitType.None, 0, false, false, false, false);
 
-
-
 		Animation anims = GetComponent<Animation>();
 
         anims["idle"].layer = 0;

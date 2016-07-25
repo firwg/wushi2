@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using DG.Tweening;
 
 public class CameraOffsetBehaviour : MonoBehaviour
 {
@@ -29,10 +30,28 @@ public class CameraOffsetBehaviour : MonoBehaviour
     }
 
 
-    public void Rotation()
+    void Update()
     {
-        Quaternion q = new Quaternion(0, 1, 0, 0.1f);
-        MyTransform.position = q * MyTransform.position;
+        if (Input.GetMouseButton(0))
+        {
+
+        }
+    }
+
+
+
+
+
+    public void OffSetMoveToLeftALittle()
+    {
+        Quaternion qq = Quaternion.AngleAxis(1.0f,Vector3.up);//Quaternion.AxisAngle(new Vector3(0, 1, 0), 2.0f);
+        OffsetTransform.position = qq * OffsetTransform.position;
+    }
+
+    public void OffSetMoveToRightALittle()
+    {
+        Quaternion qq = Quaternion.AngleAxis(-1.0f, Vector3.up);//Quaternion.AxisAngle(new Vector3(0, 1, 0), 2.0f);
+        OffsetTransform.position = qq * OffsetTransform.position;
     }
 
 
@@ -41,32 +60,32 @@ public class CameraOffsetBehaviour : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //is trigger camera volume ?
-        TriggerCamera cameraVolume = other.GetComponent("TriggerCamera") as TriggerCamera;
+        //TriggerCamera cameraVolume = other.GetComponent("TriggerCamera") as TriggerCamera;
 
-        if (cameraVolume)
-        {
-            List<Vector3> pos = new List<Vector3>();
+        //if (cameraVolume)
+        //{
+        //    List<Vector3> pos = new List<Vector3>();
 
-            if (cameraVolume.CameraOffset == null)
-            {
-                pos.Add(DefaultOffset);
-                iTween.moveToBezier(Offset, cameraVolume.Time, 0, pos);
-            }
-            else
-            {// get position from camera volume
-                if (cameraVolume.Time == 0)
-                {
-                    OffsetTransform.position = cameraVolume.CameraOffset.localPosition;
-                    //CameraBehaviour.Instance.Reset();
-                }
-                else
-                {
-                    pos.Add(cameraVolume.CameraOffset.localPosition);
-                    iTween.moveToBezier(Offset, cameraVolume.Time, 0, pos);
-                }
-                iTween.moveTo(Offset, 0.5f, 0, cameraVolume.CameraOffset.transform.localPosition);
-            }
-        }
+        //    if (cameraVolume.CameraOffset == null)
+        //    {
+        //        pos.Add(DefaultOffset);
+        //        iTween.moveToBezier(Offset, cameraVolume.Time, 0, pos);
+        //    }
+        //    else
+        //    {// get position from camera volume
+        //        if (cameraVolume.Time == 0)
+        //        {
+        //            OffsetTransform.position = cameraVolume.CameraOffset.localPosition;
+        //            //CameraBehaviour.Instance.Reset();
+        //        }
+        //        else
+        //        {
+        //            pos.Add(cameraVolume.CameraOffset.localPosition);
+        //            iTween.moveToBezier(Offset, cameraVolume.Time, 0, pos);
+        //        }
+        //        iTween.moveTo(Offset, 0.5f, 0, cameraVolume.CameraOffset.transform.localPosition);
+        //    }
+        //}
 
             
     }

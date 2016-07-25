@@ -209,8 +209,12 @@ public class AnimState : System.Object
         AnimEngine.Blend(anim, 1, fadeInTime);
     }
     
+
+
+    //播放武器的拖拽效果
     protected IEnumerator ShowTrail(AnimAttackData data, float speed, float delay, bool critical, float dustDelay)
     {
+        Debug.Log("ShowTrail");
        // Time.timeScale = 0.1f;
         if (data.Trail == null)
             yield break;
@@ -223,10 +227,11 @@ public class AnimState : System.Object
         data.Parent.position = Transform.position + Vector3.up * 0.15f;
         data.Parent.rotation = Quaternion.AngleAxis(Transform.rotation.eulerAngles.y, Vector3.up);
 
-        data.Trail.SetActiveRecursively(true);
+        Debug.Log("data.Trail.SetActive(true);");
+        data.Trail.SetActive(true);
 
         if (data.Dust)
-            data.Dust.SetActiveRecursively(false);
+            data.Dust.SetActive(false);
 
         Color color = Color.white;
 
@@ -249,8 +254,8 @@ public class AnimState : System.Object
             data.Material.SetColor("_TintColor", color);
             yield return new WaitForEndOfFrame();
         }
-
-        data.Trail.SetActiveRecursively(false);
+        Debug.Log("data.Trail.SetActive(false);");
+        data.Trail.SetActive(false);
     }
 
     public IEnumerator ShowTrailDust(AnimAttackData data)

@@ -56,7 +56,6 @@ public class AnimStateAttackMelee : AnimState
     {
         //if (Owner.IsPlayer)
         //    Owner.BlackBoard.DesiredTarget = null;
-
         Action.SetSuccess();
         Action = null;
         base.OnDeactivate();

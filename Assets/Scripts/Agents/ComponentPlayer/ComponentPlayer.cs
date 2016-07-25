@@ -19,7 +19,7 @@ public static class Player
 
 
 
-//设置一些基础属性的设置，操作的输入对于blackboard的属性的设置
+//基础属性设置，处理玩家操作
 public class ComponentPlayer : MonoBehaviour, IActionHandler
 {
 	enum E_TouchCommandType
@@ -35,13 +35,25 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 		E_TC_MOVING,
 	}
 
+    #region 基础属性设置
+    private Agent Owner;
+    public Agent Agent { get { return Owner; } }
+
+    private Transform Transform;
+    private float StepTime;
+    private int Experience;
+    private AnimSetPlayer AnimSet;
+    private bool UseMode = false;
+    public bool InUseMode { get { return UseMode; } }
+    #endregion
+
+    #region 玩家操作
     public class ComboStep
     {
         public E_AttackType AttackType;
         public E_ComboLevel ComboLevel;
         public AnimAttackData Data;
     }
-
     public class Combo
     {
         public E_SwordLevel SwordLevel;
@@ -50,25 +62,16 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
     public Combo[] PlayerComboAttacks = new Combo[6];
     private List<E_AttackType> ComboProgress = new List<E_AttackType>();
-
-    private Agent Owner;
-    private Transform Transform;
-    private float StepTime;
-    private int Experience;
-      
-    private bool UseMode = false;
-
-
-    private Queue<AgentOrder> BufferedOrders = new Queue<AgentOrder>();
+    private Queue<AgentOrder> BufferedOrders = new Queue<AgentOrder>();//玩家操作的暂存堆栈
     private Agent LastAttacketTarget;
-    private PlayerControls Controls = new PlayerControls();
-
+    //private PlayerControls Controls = new PlayerControls();
     private AgentActionAttack CurrentAttackAction;
 
-    private AnimSetPlayer AnimSet;
-    
-    public Agent Agent { get { return Owner; } }
-    public bool InUseMode { get { return UseMode; } }
+    private Vector3 InputDirection;
+
+    #endregion
+
+   
 
     void Awake()
     {
@@ -112,7 +115,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
                                          new ComboStep(){AttackType = E_AttackType.X, ComboLevel = E_ComboLevel.Three, Data = AnimSet.AttackData[19]},
             }
         };
-
         PlayerComboAttacks[3] = new Combo()  // flying dragon
         {
             SwordLevel = E_SwordLevel.Three,
@@ -133,7 +135,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
                                          new ComboStep(){AttackType = E_AttackType.X, ComboLevel = E_ComboLevel.Three, Data = AnimSet.AttackData[16]},
             }
         };
-
         PlayerComboAttacks[5] = new Combo() // HEAVY, AREA  shogun death
         {
             SwordLevel = E_SwordLevel.Five,
@@ -186,7 +187,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
         Owner.BlackBoard.ActionHandlerAdd(this);
 
-        Controls.Start();
+        //Controls.Start();
 	}
 
     void Activate(Transform t)
@@ -222,7 +223,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
         ComboProgress.Clear();
         ClearBufferedOrder();
 
-        Controls.SwitchToCombatMode();
+        //Controls.SwitchToCombatMode();
 
         GuiManager.Instance.ShowComboProgress(ComboProgress);
     }
@@ -241,7 +242,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
             ComboProgress.Clear();
             ClearBufferedOrder();
             CreateOrderStop();
-            Controls.Update();
+            //Controls.Update();
             return;
         }
 
@@ -251,14 +252,16 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
                 Owner.BlackBoard.OrderAdd(BufferedOrders.Dequeue());
         }
 
-        Controls.Update();
+        //Controls.Update();
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        Controls.Joystick.Direction=new Vector3(h,0,v);
-        Controls.Joystick.Direction.Normalize();
+        //Controls.Joystick.Direction=new Vector3(h,0,v);
+        //Controls.Joystick.Direction.Normalize();
 
+        InputDirection = new Vector3(h, 0, v);
+        InputDirection.Normalize();
         if (Input.GetKeyDown(KeyCode.K))
         {
             //CreateWeaponShow();
@@ -423,7 +426,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
 
 
-        if (Controls.Joystick.Direction != Vector3.zero)
+        if (InputDirection !=Vector3.zero)//Controls.Joystick.Direction != Vector3.zero)
         {
             //Debug.DrawLine(Agent.Position + Vector3.up, Agent.Position + Vector3.up + Controls.Joystick.Direction * Controls.Joystick.Force * 4);
             CreateOrderGoTo();
@@ -480,19 +483,19 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
             if (UseMode)
             {
                 GuiManager.Instance.SwitchToUseMode();
-                Controls.SwitchToUseMode();
+                //Controls.SwitchToUseMode();
             }
             else
             {
                 GuiManager.Instance.SwitchToCombatMode();
-                Controls.SwitchToCombatMode();
+                //Controls.SwitchToCombatMode();
             }
         }
     }
 
     public void UpdateControlsPosition()
     {
-        Controls.UpdateControlsPosition();
+       // Controls.UpdateControlsPosition();
     }
 
     void OnTriggerEnter(Collider other)
@@ -554,8 +557,8 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
             return;
 
         AgentOrder order = AgentOrderFactory.Create(AgentOrder.E_OrderType.E_GOTO);
-        Owner.BlackBoard.CameraDirection = CameraBehaviour.lookAt;
-        order.Direction = Controls.Joystick.Direction;
+        Owner.BlackBoard.CameraDirection = CameraBehaviour.Instance.lookAt;
+        order.Direction = InputDirection;// Controls.Joystick.Direction;
         order.MoveSpeedModifier = 0.6f; //Controls.Joystick.Force;
         //Debug.Log("order.MoveSpeedModifier=" + order.MoveSpeedModifier);
         Owner.BlackBoard.OrderAdd(order);
@@ -578,8 +581,8 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
         AgentOrder order = AgentOrderFactory.Create(AgentOrder.E_OrderType.E_ATTACK);
 
-        if (Controls.Joystick.Direction != Vector3.zero)
-            order.Direction = Controls.Joystick.Direction;
+        if (InputDirection != Vector3.zero)//Controls.Joystick.Direction != Vector3.zero)
+            order.Direction = InputDirection;//Controls.Joystick.Direction;
         else
             order.Direction = Transform.forward;
         
@@ -607,9 +610,9 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
         Vector3 rollDir;
 
-        if(Controls.Joystick.Direction != Vector3.zero)
-            rollDir = Controls.Joystick.Direction;
-        else 
+        if (InputDirection != Vector3.zero)//Controls.Joystick.Direction != Vector3.zero)
+            rollDir = InputDirection;// Controls.Joystick.Direction;
+        else
             rollDir = Owner.Forward;
 
         rollDir.Normalize();
@@ -700,10 +703,10 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
     public void StopMove(bool stop)
     {
-        if (stop)
-            Controls.DisableInput();
-        else
-            Controls.EnableInput();
+        //if (stop)
+            //Controls.DisableInput();
+        //else
+            //Controls.EnableInput();
     }
 
     public void Teleport(Teleport teleport)
@@ -711,7 +714,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
         Owner.BlackBoard.Stop = true;
         Owner.BlackBoard.TeleportDestination = teleport;
         Owner.WorldState.SetWSProperty(E_PropKey.E_TELEPORT, true);
-        Controls.Reset();
+       // Controls.Reset();
       
     }
 
@@ -757,9 +760,9 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
           //  Debug.Log("angle " + Mission.Instance.CurrentGameZone.GetEnemy(i).name + " : " + EnemyCoeficient[i]);
 
-            if (Controls.Joystick.Direction != Vector3.zero)
+            if (InputDirection !=Vector3.zero)//Controls.Joystick.Direction != Vector3.zero)
             {
-                angle = Vector3.Angle(dirToEnemy, Controls.Joystick.Direction);
+                angle = Vector3.Angle(dirToEnemy, InputDirection);//Controls.Joystick.Direction);
                 EnemyCoeficient[i] += 0.5f - ((angle / 180.0f) * 0.5f);
             }
         //    Debug.Log(" joy " + Mission.Instance.CurrentGameZone.GetEnemy(i).name + " : " + EnemyCoeficient[i]); 

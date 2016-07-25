@@ -315,13 +315,13 @@ public class BlackBoard
                     //Debug.Log("DesiredPosition="+ DesiredPosition);
                     //float van = Mathf.Atan2(2, 5);
                     CameraDirection.y = 0;
-                   Quaternion q = Quaternion.FromToRotation(new Vector3(0, 0, 1), CameraDirection);
+                   Quaternion q = Quaternion.FromToRotation(Vector3.forward, CameraDirection);
                     DesiredDirection = q*order.Direction;
                     Debug.Log("DesiredDirection=" + DesiredDirection);
                     MoveSpeedModifier = order.MoveSpeedModifier;
                     break;
                 case AgentOrder.E_OrderType.E_DODGE:
-                    Quaternion qq = Quaternion.FromToRotation(new Vector3(0, 0, 1), CameraDirection);
+                    Quaternion qq = Quaternion.FromToRotation(Vector3.forward, CameraDirection);
                     DesiredDirection = qq * order.Direction;
                     //Debug.Log(Time.timeSinceLevelLoad + " order arrived " + order.Type);
                     break;
@@ -344,7 +344,8 @@ public class BlackBoard
 
                     DesiredAttackType = order.AttackType;
                     DesiredTarget = order.Target;
-                    DesiredDirection = order.Direction;
+                    Quaternion qqq = Quaternion.FromToRotation(Vector3.forward, CameraDirection);
+                    DesiredDirection = qqq*order.Direction;
                     DesiredAttackPhase = order.AnimAttackData;
                     break;
             }

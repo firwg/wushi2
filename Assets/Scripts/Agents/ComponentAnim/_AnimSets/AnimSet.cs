@@ -140,6 +140,7 @@ public class AnimAttackData : System.Object
 
         if (Trail)
         {
+            Debug.Log("Trail！=null");
             Parent = Trail.transform.parent;
 
             if (Trail.transform.FindChild("dust"))
@@ -161,9 +162,13 @@ public class AnimAttackData : System.Object
 
             if (Material == null)
                 Debug.LogError("Trail - no Material");
+
+            Trail.SetActive(false);
+
         }
         else
         {
+            Debug.Log("Trail==null");
             Animation = null;
             Material = null;
         }

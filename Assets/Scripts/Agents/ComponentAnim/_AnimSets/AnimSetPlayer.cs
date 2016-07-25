@@ -111,12 +111,13 @@ public class AnimSetPlayer : AnimSet
 
 
         Trails = Instantiate(Resources.Load("trails_combo01")) as GameObject;
-        Trails.SetActiveRecursively(false);
+        Trails.SetActive(true);
+        //Trails.SetActiveRecursively(false);
 
         AttackKnockdown = new AnimAttackData("attackKnockdown", null, 1.5f, 0.65f, 0.2f, 0.6f, 1.0f, 20, 0, 0, E_CriticalHitType.None, 0, false, false, false, true);
 
         // AAAAA, critical later
-        AttackData[0] = new AnimAttackData("attackX", Trails.transform.Find("trail_X").gameObject, 0.6f, 0.23f, 0.05f, 0.366f, 0.366f, 3, 15, 0.6f, E_CriticalHitType.Vertical, 0.2f, false, false, false, false);
+        AttackData[0] = new AnimAttackData("attackX", Trails.transform.FindChild("trail_X").gameObject, 0.6f, 0.23f, 0.05f, 0.366f, 0.366f, 3, 15, 0.6f, E_CriticalHitType.Vertical, 0.2f, false, false, false, false);
         AttackData[1] = new AnimAttackData("attackXX", Trails.transform.Find("trail_XX").gameObject, 0.6f, 0.22f, 0.15f, 0.35f, 0.4f, 5, 15, 0.6f, E_CriticalHitType.Vertical, 0.25f, false, false, false, false);
 /*1*/   AttackData[2] = new AnimAttackData("attackXXX", Trails.transform.Find("trail_XXX").gameObject, 0.7f, 0.25f, 0.20f, 0.30f, 0.366f, 10, 45, 0.75f, E_CriticalHitType.Horizontal, 0.3f, false, false, false, false);
         AttackData[3] = new AnimAttackData("attackXXXX", Trails.transform.Find("trail_XXXX").gameObject, 0.8f, 0.28f, 0.22f, 0.35f, 0.366f, 12, 90, 0.8f, E_CriticalHitType.Horizontal, 0.5f, false, false, true, false);

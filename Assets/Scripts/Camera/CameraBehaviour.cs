@@ -6,49 +6,37 @@ using System.Collections;
 
 
 /// <summary>
-/// 相机的控制 关键在于对于相机的三个参数进行控制 field of World ，transform.forwad，transform.position，
+/// 对于相机的控制 关键在于三个参数， offset的position，相机的transform.Forward，还有fieldofworld
 /// </summary>
 public class CameraBehaviour : MonoBehaviour
 {
 
     void OnDrawGizmos()
     {
-
-        Gizmos.color = Color.white;
-
+        Gizmos.color = Color.blue;
         Gizmos.DrawSphere(lookAtPosition, 0.2f);
         Gizmos.DrawSphere(transform.position, 0.2f);
-
         Gizmos.DrawLine(transform.position, lookAtPosition);
-
-        //Gizmos.DrawWireCube((GetComponent<Collider>() as BoxCollider).center + transform.position, (GetComponent<Collider>() as BoxCollider).size);
-
     }
 
 
-
-
-    public GameObject Target;//玩家目标
-    public Animation Animation;
-    private Animation ParentAnimation;
-
-    public Camera camera;
-
-
-
-    private CameraOffsetBehaviour Offset;
-
-    private Transform CameraTransform;
+    //Player
     private Transform PlayerTransform;
     private BlackBoard PlayerBlackBoard;
+    private CameraOffsetBehaviour CameraOffsetInPalyer;
 
-    public static Vector3 lookAt;
+    //Camera
+    public Animation Animation;
+    private Animation ParentAnimation;
+    private Transform CameraTransform;
+    public Vector3 lookAt;
     public Vector3 lookAtPosition;
 
 
     public static CameraBehaviour Instance;
-    float DisabledTime = 0;
 
+
+    float DisabledTime = 0;
     float CurrentFovTime;
     float FovTime;
     float FovStart;
@@ -79,24 +67,21 @@ public class CameraBehaviour : MonoBehaviour
         Instance = this;
         Animation = Camera.main.GetComponent<Animation>();
         ParentAnimation = GetComponent<Animation>();
+        CameraOffsetInPalyer = GameObject.Find("Player").GetComponent<CameraOffsetBehaviour>();
+        CameraTransform = transform;
+        PlayerTransform = GameObject.Find("Player").transform;
+        PlayerBlackBoard = GameObject.Find("Player").GetComponent<Agent>().BlackBoard;
 
     }
 
     void Start()
     {
-        DisabledTime = 0;
 
+   #region  hehe
    /*     CriticalHitEffect =  GetComponentInChildren<Vignetting>();
         CriticalHitEffect.blurVignette = 0;
         CriticalHitEffect.enabled = false;*/
   //      BlurOk = true;
-
-
-        Offset = Target.GetComponent("CameraOffsetBehaviour") as CameraOffsetBehaviour;
-
-        CameraTransform = transform;
-        PlayerTransform = Target.transform;
-        PlayerBlackBoard = Target.GetComponent<Agent>().BlackBoard;
 
         //AttTargetTransform = Target.GetComponent<Agent>().BlackBoard.DesiredTarget.transform;
 
@@ -109,8 +94,9 @@ public class CameraBehaviour : MonoBehaviour
            t += dir * 1.5f;
 
            CameraTransform.LookAt(t);*/
+   #endregion
 
-
+        DisabledTime = 0;
         CurrentFovTime = 0;
         FovTime = 0;
         FovStart = 0;
@@ -134,12 +120,12 @@ public class CameraBehaviour : MonoBehaviour
         if (DisabledTime >= Time.timeSinceLevelLoad)
             return;
 
-        // Where should our camera be looking right now?更新相机所在的位置
-        Vector3 goalPosition = Offset.GetCameraPosition();
+        // Where should our camera be looking right now?鏇存柊鐩告満鎵�鍦ㄧ殑浣嶇疆
+        Vector3 goalPosition = CameraOffsetInPalyer.GetCameraPosition();
         CameraTransform.position = Vector3.Lerp(CameraTransform.position, goalPosition, Time.deltaTime * 4);
 
 
-        //更新相机的朝向
+        //鏇存柊鐩告満鐨勬湞鍚?
         if (PlayerBlackBoard.DesiredTarget == null)
         {
             //Vector3 dir = CameraTransform.forward;
@@ -157,14 +143,13 @@ public class CameraBehaviour : MonoBehaviour
             Vector3 targetPos = PlayerBlackBoard.DesiredTarget.transform.position;
 
 
-            if (camera != null)
+            if (GetComponent<Camera>() != null)
             {
-                Vector3 pos = camera.WorldToViewportPoint(targetPos);
-                if (pos.x > 0.1F)
-
-                    Debug.Log("target is on the right side!");
-                else
-                    Debug.Log("target is on the left side!");
+                Vector3 pos = Camera.main.WorldToViewportPoint(targetPos);
+                if (pos.x > 0.9F)
+                    CameraOffsetInPalyer.OffSetMoveToLeftALittle();
+                else if (pos.x < 0.1)
+                    CameraOffsetInPalyer.OffSetMoveToRightALittle();
             }
             lookAtPosition = new Vector3((PlayerTransform.position.x+ targetPos.x)/2 , (PlayerTransform.position.y + targetPos.y) / 2,(PlayerTransform.position.z + targetPos.z) / 2);
         }
@@ -231,7 +216,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public void Reset()
     {
-        CameraTransform.position = Offset.GetCameraPosition();
+        CameraTransform.position = CameraOffsetInPalyer.GetCameraPosition();
 
         Vector3 dir = CameraTransform.forward;
         dir.y = 0;
