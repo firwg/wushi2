@@ -85,6 +85,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 	// Use this for initialization
 	void Start()
 	{
+        #region PlayerComboAttacks
         PlayerComboAttacks[0] = new Combo() // FAST   Raisin Wave
         {
             SwordLevel = E_SwordLevel.One,
@@ -146,6 +147,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
             }
         };
 
+        #endregion
 
         Owner.BlackBoard.IsPlayer = true;
         Owner.BlackBoard.Rage = 0;
