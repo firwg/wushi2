@@ -282,6 +282,29 @@ public enum E_Direction
     Down
 }
 
+public enum E_BuffType
+{
+
+}
+
+public enum E_DebuffType
+{
+    E_Debuff_Stun,
+    E_Debuff_Frozen,
+    E_Debuff_LowDefence,
+    E_Debuff_LowAttack,
+    E_Debuff_Dot,
+    E_Debuff_LowSpeed,
+    E_Debuff_Miss,
+    E_Debuff_NotHeal,
+    E_Debuff_Boom,
+    E_Debuff_Provocation,
+
+}
+
+
+
+
 class Types
 {
 
