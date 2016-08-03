@@ -84,14 +84,8 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
 	// Use this for initialization
 	void Start()
-<<<<<<< HEAD
 	{
         #region PlayerComboAttacks
-=======
-    {
-        #region PlayerComboAttacks
-
->>>>>>> 5a46e3dca1bc9fcea4754e8f64d30d15576038a5
         PlayerComboAttacks[0] = new Combo() // FAST   Raisin Wave
         {
             SwordLevel = E_SwordLevel.One,
@@ -152,7 +146,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
                                          new ComboStep(){AttackType = E_AttackType.O, ComboLevel = E_ComboLevel.Three, Data = AnimSet.AttackData[23]},
             }
         };
-        #endregion
 
         #endregion
 
@@ -166,7 +159,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
         SpriteEffectsManager.Instance.CreateShadow(Transform.FindChild("root").gameObject, 1.3f, 1.3f);
 
-        #region GOAPAction
         Agent.AddGOAPAction(E_GOAPAction.gotoPos);
         Agent.AddGOAPAction(E_GOAPAction.move);
         Agent.AddGOAPAction(E_GOAPAction.gotoMeleeRange);
@@ -196,7 +188,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
         Agent.InitializeGOAP();
 
         Owner.BlackBoard.ActionHandlerAdd(this);
-        #endregion
 
         //Controls.Start();
 	}
@@ -209,7 +200,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
         Owner.BlackBoard.Reset();
 
-        #region WorldState
         Owner.WorldState.SetWSProperty(E_PropKey.E_ORDER, AgentOrder.E_OrderType.E_NONE);
 
         Owner.WorldState.SetWSProperty(E_PropKey.E_IDLING, true);
@@ -231,7 +221,6 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
         Owner.WorldState.SetWSProperty(E_PropKey.MoveToLeft, false);
 
         Owner.WorldState.SetWSProperty(E_PropKey.E_EVENT, E_EventTypes.None);
-        #endregion
 
         ComboProgress.Clear();
         ClearBufferedOrder();
@@ -248,6 +237,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
     void Update()
     {
+
         if (Owner.BlackBoard.Stop)
         {
             LastAttacketTarget = null;
@@ -431,6 +421,12 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
         //    }
         //}
         #endregion
+
+
+
+
+
+
 
         if (InputDirection !=Vector3.zero)//Controls.Joystick.Direction != Vector3.zero)
         {
