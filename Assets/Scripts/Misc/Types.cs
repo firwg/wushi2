@@ -300,11 +300,11 @@ public enum E_BuffEffectType
     E_Buff_Recovery,//恢复 ，生效时刻：每次获得回合的时候。生效逻辑：自身恢复10%上限的体力。
     E_Buff_Shield,//护盾，生效时刻：每次被攻击计算最终伤害的时候。生效逻辑：护盾量抵扣伤害。
     E_Buff_Counter,//反击，生效时刻：每次被具有攻击行为的技能作为目标之后如果还活着。生效逻辑：对攻击者使用1技能。
-    E_Buff_Invincible,//无敌
-    E_Buff_IncreaseCRIResist,//降低被暴击几率
-    E_Buff_Endure,//对峙
-    E_Buff_Denfend,//护卫
-    E_Buff_ProtectSoul,//灵魂保护
+    E_Buff_Invincible,//无敌，生效时刻：每次被攻击计算最终伤害的时候。生效逻辑：伤害为0
+    E_Buff_IncreaseCRIResist,//降低被暴击几率，生效时刻：每次被攻击计算标准伤害的时候。生效逻辑：减少暴击几率
+    E_Buff_Endure,//对峙，生效时刻：最终伤害生效之前。生效逻辑：根据最后生命量计算实际伤害量。
+    E_Buff_Denfend,//护卫，生效时刻：最终伤害生效之前。生效逻辑：转移最终伤害至buff的生成者。
+    E_Buff_ProtectSoul,//灵魂保护，生效时刻：死亡之后。生效逻辑：复活。
 
     E_Debuff_Stun,//晕眩
     E_Debuff_Freeze,//冰冻
