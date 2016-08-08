@@ -233,6 +233,38 @@ public class BlackBoard
     public bool ReactOnHits = true;
     #endregion
 
+    #region Test Value
+    public int Test_Level;
+    public float Test_Basic_HP;
+    public float Test_Temp_HP;
+
+    //ATK
+    public float Test_Basic_ATK;
+    private float test_temp_atk;
+    public float Test_Temp_ATK { set { if (value > 0)test_temp_atk = value; } get { return test_temp_atk; } }
+
+
+    //DEF
+    public float Test_Basic_DEF;
+    private float test_temp_def;
+    public float Test_Temp_DEF { set { if (value > 0)test_temp_def = value; } get { return test_temp_def; } }
+
+    //ATKSPD
+    public float Test_Basic_ATKSPD;
+    private float test_temp_atkspd;
+    public float Test_Temp_ATKSPD { set { if (value > 0)test_temp_atkspd = value; } get { return test_temp_atkspd; } }
+
+
+    public float Test_Basic_CRI_Rate;
+    public float Test_Temp_CRI_Rate;
+    public float Test_Basic_CRI_Dmg;
+    public float Test_Temp_CRI_Dmg;
+    public float Test_Basic_Resistance;
+    public float Test_Temp_Resistance;
+    public float Test_Basic_Accuracy;
+    public float Test_Temp_Accuracy;
+    #endregion
+
 
     public float RealMaxHealth
     {

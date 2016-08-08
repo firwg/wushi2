@@ -284,23 +284,46 @@ public enum E_Direction
 
 public enum E_BuffType
 {
-
+    E_BeneficialEffectType,//增益buff
+    E_HarmfulEffectType,//减益buff
 }
 
-public enum E_DebuffType
+
+public enum E_BuffEffectType
 {
-    E_Debuff_Stun,
-    E_Debuff_Frozen,
-    E_Debuff_LowDefence,
-    E_Debuff_LowAttack,
-    E_Debuff_Dot,
-    E_Debuff_LowSpeed,
-    E_Debuff_Miss,
-    E_Debuff_NotHeal,
-    E_Debuff_Boom,
-    E_Debuff_Provocation,
+    E_Buff_IncreaseATK,//增加攻击力，生效时刻：生成的时候。生效逻辑：增加攻击力。
+    E_Buff_IncreaseATKSPD,//增加攻击速度，生效时刻：生成的时候。生效逻辑：增加攻击速度。
+    E_Buff_IncreaseDEF,//增加防御，生效时刻：生成的时候。生效逻辑：增加防御力。
+    E_Buff_Immunity,//免疫，生效时刻：被命中debuff计算命中率的时候。生效逻辑：命中率为0。
+    E_Buff_ReflectDMG,//反射伤害，反射30%伤害。生效时刻：每次被攻击受到伤害的时候。生效逻辑：给攻击者造成30%的伤害。
+    E_Buff_IncreaseCRIRate,//增加暴击几率，生效时刻：生成的时候。生效逻辑：增加暴击率。
+    E_Buff_Recovery,//恢复 ，生效时刻：每次获得回合的时候。生效逻辑：自身恢复10%上限的体力。
+    E_Buff_Shield,//护盾，生效时刻：每次被攻击计算最终伤害的时候。生效逻辑：护盾量抵扣伤害。
+    E_Buff_Counter,//反击，生效时刻：每次被具有攻击行为的技能作为目标之后如果还活着。生效逻辑：对攻击者使用1技能。
+    E_Buff_Invincible,//无敌
+    E_Buff_IncreaseCRIResist,//降低被暴击几率
+    E_Buff_Endure,//对峙
+    E_Buff_Denfend,//护卫
+    E_Buff_ProtectSoul,//灵魂保护
 
+    E_Debuff_Stun,//晕眩
+    E_Debuff_Freeze,//冰冻
+    E_Debuff_DecreaseDEF,//降低防御
+    E_Debuff_DecreaseATK,//降低攻击
+    E_Debuff_ContinuousDMG,//持续伤害
+    E_Debuff_DecreaseATKSPD,//降低攻击速度
+    E_Debuff_Sleep,//睡眠
+    E_Debuff_IncreasedChancesOfMissing,//提高未击中几率
+    E_Debuff_Unrecoverable,//禁止恢复体力
+    E_Debuff_Bomb,//炸弹
+    E_Debuff_Provoke,//挑衅
+    E_Debuff_BeneficialEffectsBlocked,//禁止增益buff
+    E_Debuff_Silence,//禁止使用主动技能
+    E_Debuff_Brand,//烙印 增加25%伤害
+    E_Debuff_Oblivion,//遗忘
 }
+
+
 
 
 
