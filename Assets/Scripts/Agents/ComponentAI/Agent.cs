@@ -818,4 +818,12 @@ public class Agent : MonoBehaviour
         CharacterController.center = CollisionCenter;
     }
 
+
+
+    //public event EventHandler<>
+
+
+
+
+
 }

@@ -3,40 +3,62 @@ using System.Collections;
 
 public abstract class Buff : System.Object 
 {
-    public int TurnCount;//回合数
-    public Agent Spawner;//buff生成者
-    public Agent Onwer;//buff拥有者
-    //效果种类
+
+    /// <summary>
+    /// 回合数
+    /// </summary>
+    public int TurnCount;
+
+    /// <summary>
+    /// Buff生成者
+    /// </summary>
+    public Agent Spawner;
+
+    /// <summary>
+    /// Buff承受者
+    /// </summary>
+    public Agent Onwer;
+
+    //Buff效果种类
     private E_BuffEffectType buffeffecttype;
     public E_BuffEffectType BuffEffectType
     {
-        set { if (value != null) buffeffecttype = value; }
+        set { buffeffecttype = value; }
         get { return buffeffecttype; }
     }
-    //Buff种类
+
+    //Buff种类，增益还是减益
     private E_BuffType bufftype;
     public E_BuffType BuffType
     {
-        set { if (value != null) bufftype = value; }
+        set { bufftype = value; }
         get { return bufftype; }
     }
 
+
+
     //实例化
-    protected Buff(E_BuffEffectType effecttype, Agent onwer,Agent spawner,int turncount)
+    protected Buff(E_BuffEffectType _effecttype, Agent _onwer,Agent _spawner,int _turncount)
     {
-        TurnCount = turncount;
-        Spawner = spawner;
-        Onwer = onwer;
-        buffeffecttype = effecttype;
+        TurnCount = _turncount;
+        Spawner = _spawner;
+        Onwer = _onwer;
+        buffeffecttype = _effecttype;
+        if ((int)_effecttype > (int)E_BuffEffectType.E_divide) BuffType = E_BuffType.E_HarmfulEffectType;
+        else BuffType = E_BuffType.E_BeneficialEffectType;
     }
 
 
 
-
-    //Buff生效的时候调用一次，放置Buff逻辑
+    /// <summary>
+    /// Buff生效的时候调用一次，放置Buff逻辑
+    /// </summary>
     public abstract void Active();
 
-    //Buf失效的时候 调用一次，放置Buff逻辑
+
+    /// <summary>
+    /// Buff失效的时候调用一次，放置Buff逻辑
+    /// </summary>
     public abstract void Deactivate();
 
 

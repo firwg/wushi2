@@ -306,6 +306,8 @@ public enum E_BuffEffectType
     E_Buff_Denfend,//护卫，生效时刻：最终伤害生效之前。生效逻辑：转移最终伤害至buff的生成者。
     E_Buff_ProtectSoul,//灵魂保护，生效时刻：死亡之后。生效逻辑：复活。
 
+    E_divide,
+
     E_Debuff_Stun,//晕眩
     E_Debuff_Freeze,//冰冻
     E_Debuff_DecreaseDEF,//降低防御
