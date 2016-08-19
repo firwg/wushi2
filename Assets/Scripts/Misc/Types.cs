@@ -288,10 +288,18 @@ public enum E_BuffType
     E_HarmfulEffectType,//减益buff
 }
 
+public enum E_TimeNodeType
+{
+    E_StandardDGMCalculate,//标准伤害计算时
+
+
+}
+
+
 
 public enum E_BuffEffectType
 {
-    E_Buff_IncreaseATK,//增加攻击力，生效时刻：生成的时候。生效逻辑：增加攻击力。
+    E_Buff_IncreaseATK,//增加攻击力，生效时刻：Buff添加的时候。生效逻辑：临时增加攻击力。
     E_Buff_IncreaseATKSPD,//增加攻击速度，生效时刻：生成的时候。生效逻辑：增加攻击速度。
     E_Buff_IncreaseDEF,//增加防御，生效时刻：生成的时候。生效逻辑：增加防御力。
     E_Buff_Immunity,//免疫，生效时刻：被命中debuff计算命中率的时候。生效逻辑：命中率为0。
@@ -302,14 +310,16 @@ public enum E_BuffEffectType
     E_Buff_Counter,//反击，生效时刻：每次被具有攻击行为的技能作为目标之后如果还活着。生效逻辑：对攻击者使用1技能。
     E_Buff_Invincible,//无敌，生效时刻：每次被攻击计算最终伤害的时候。生效逻辑：伤害为0
     E_Buff_IncreaseCRIResist,//降低被暴击几率，生效时刻：每次被攻击计算标准伤害的时候。生效逻辑：减少暴击几率
-    E_Buff_Endure,//对峙，生效时刻：最终伤害生效之前。生效逻辑：根据最后生命量计算实际伤害量。
+    E_Buff_Endure,//对峙，生效时刻：最终伤害生效之后，死亡之前。生效逻辑：根据最后生命量计算实际伤害量。
     E_Buff_Denfend,//护卫，生效时刻：最终伤害生效之前。生效逻辑：转移最终伤害至buff的生成者。
     E_Buff_ProtectSoul,//灵魂保护，生效时刻：死亡之后。生效逻辑：复活。
 
+
+    //
     E_divide,
 
-    E_Debuff_Stun,//晕眩
-    E_Debuff_Freeze,//冰冻
+    E_Debuff_Stun,//晕眩，生效时刻：获得回合之时。生效逻辑：取消本次当前回合。
+    E_Debuff_Freeze,//冰冻，生效时刻：获得回合之时。生效逻辑：取消本次当前回合。
     E_Debuff_DecreaseDEF,//降低防御
     E_Debuff_DecreaseATK,//降低攻击
     E_Debuff_ContinuousDMG,//持续伤害

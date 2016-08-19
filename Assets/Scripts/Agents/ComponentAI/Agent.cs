@@ -33,6 +33,18 @@ public class Agent : MonoBehaviour
 
     public AudioClip WeaponOn = null;
     public AudioClip WeaponOff = null;
+
+    public AudioClip SpawnSound { get { if (SpawnSounds == null || SpawnSounds.Length == 0) return null; return SpawnSounds[Random.Range(0, SpawnSounds.Length)]; } }
+    public AudioClip StepSound { get { if (StepSounds == null || StepSounds.Length == 0) return null; return StepSounds[Random.Range(0, StepSounds.Length)]; } }
+    public AudioClip RollSound { get { if (RollSounds == null || RollSounds.Length == 0) return null; return RollSounds[Random.Range(0, RollSounds.Length)]; } }
+    public AudioClip PrepareAttackSound { get { if (PrepareAttackSounds == null || PrepareAttackSounds.Length == 0) return null; return PrepareAttackSounds[Random.Range(0, PrepareAttackSounds.Length)]; } }
+    public AudioClip BerserkSound { get { if (BerserkSounds == null || BerserkSounds.Length == 0) return null; return BerserkSounds[Random.Range(0, BerserkSounds.Length)]; } }
+    public AudioClip AttackMissSound { get { if (AttackMissSounds == null || AttackMissSounds.Length == 0) return null; return AttackMissSounds[Random.Range(0, AttackMissSounds.Length)]; } }
+    public AudioClip AttackHitSound { get { if (AttackHitSounds == null || AttackHitSounds.Length == 0) return null; return AttackHitSounds[Random.Range(0, AttackHitSounds.Length)]; } }
+    public AudioClip AttackBlockSound { get { if (AttackBlockSounds == null || AttackBlockSounds.Length == 0) return null; return AttackBlockSounds[Random.Range(0, AttackBlockSounds.Length)]; } }
+
+
+
     #endregion
 
 
@@ -88,15 +100,6 @@ public class Agent : MonoBehaviour
     public bool IsKnockedDown { get { return BlackBoard.MotionType == E_MotionType.Knockdown && BlackBoard.KnockDownDamageDeadly; } }
 
     public Vector3 ChestPosition { get { return Transform.position + transform.up * 1.5f; } }
-
-    public AudioClip SpawnSound { get { if (SpawnSounds == null || SpawnSounds.Length == 0) return null; return SpawnSounds[Random.Range(0, SpawnSounds.Length)]; } }
-    public AudioClip StepSound { get { if (StepSounds == null || StepSounds.Length == 0) return null; return StepSounds[Random.Range(0, StepSounds.Length)]; } }
-    public AudioClip RollSound { get { if (RollSounds == null || RollSounds.Length == 0) return null; return RollSounds[Random.Range(0, RollSounds.Length)]; } }
-    public AudioClip PrepareAttackSound { get { if (PrepareAttackSounds == null || PrepareAttackSounds.Length == 0) return null; return PrepareAttackSounds[Random.Range(0, PrepareAttackSounds.Length)]; } }
-    public AudioClip BerserkSound { get { if (BerserkSounds == null || BerserkSounds.Length == 0) return null; return BerserkSounds[Random.Range(0, BerserkSounds.Length)]; } }
-    public AudioClip AttackMissSound { get { if (AttackMissSounds == null || AttackMissSounds.Length == 0) return null; return AttackMissSounds[Random.Range(0, AttackMissSounds.Length)]; } }
-    public AudioClip AttackHitSound { get { if (AttackHitSounds == null || AttackHitSounds.Length == 0) return null; return AttackHitSounds[Random.Range(0, AttackHitSounds.Length)]; } }
-    public AudioClip AttackBlockSound { get { if (AttackBlockSounds == null || AttackBlockSounds.Length == 0) return null; return AttackBlockSounds[Random.Range(0, AttackBlockSounds.Length)]; } }
 
     private Vector3 CollisionCenter;
 	//only once throught whole level
@@ -295,6 +298,7 @@ public class Agent : MonoBehaviour
         m_GoalManager.Initialize();
     }
 
+    #region ReceiveDamage
     // RECIEVE FUNCTIONS
 
     public void ReceiveRangeDamage(Agent attacker, float damage, Vector3 impuls)
@@ -573,37 +577,10 @@ public class Agent : MonoBehaviour
 
         Mission.Instance.ReturnHuman(GameObject);
     }
-
-    /// WEAPONS
-    /*
-    public void ShowWeapon(bool show, float delay)
-    {
-        if (Weapons == null || Weapons[(int)BlackBoard.WeaponSelected] == null)
-            return;
-
-        StopCoroutine("_ShowWeapon");
-           
-        StartCoroutine(_ShowWeapon(show, delay));
-    }
-    
-    IEnumerator _ShowWeapon(bool show, float delay)
-    {
-        if (show == false)
-        {
-            yield return new WaitForSeconds(0.8f);
-            SoundPlayWeaponOff();
-            yield return new WaitForSeconds(delay - 0.8f);
-        }
-        else
-            yield return new WaitForSeconds(delay);
-
-        
-
-        Weapons[(int)BlackBoard.WeaponSelected].SetActiveRecursively(show);
-    }*/
+    #endregion
 
 
-
+    #region Drama
     public void PlayAnim(string animName)
     {
         if (animName != null)
@@ -619,6 +596,7 @@ public class Agent : MonoBehaviour
         Transform.position = destination.position;
         Transform.rotation = destination.rotation;
     }
+    #endregion
 
 
     void SpawnBlood()
@@ -714,6 +692,24 @@ public class Agent : MonoBehaviour
         return 18;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #region  SoundPlay
+
     public void SoundPlay(AudioClip clip)
     {
         if(clip)
@@ -804,6 +800,10 @@ public class Agent : MonoBehaviour
 
         Audio.volume = 1;
     }
+
+#endregion
+
+
 
 
     public void DisableCollisions()
