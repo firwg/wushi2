@@ -234,27 +234,22 @@ public class BlackBoard
     #endregion
 
     #region Test Value
-    public int Test_Level;
-    public float Test_Basic_HP;
-    public float Test_Temp_HP;
+    public int Monster_Level;
+    public float Monster_Basic_HP;
+    public float Monster_Temp_HP;
 
     //ATK
-    public float Test_Basic_ATK;
-    private float test_temp_atk;
-    public float Test_Temp_ATK { set { if (value > 0)test_temp_atk = value; } get { return test_temp_atk; } }
-
+    public float Monster_Basic_ATK;
+    public float Monster_Temp_ATK;
 
     //DEF
     public float Test_Basic_DEF;
-    private float test_temp_def;
-    public float Test_Temp_DEF { set { if (value > 0)test_temp_def = value; } get { return test_temp_def; } }
+    public float Test_Temp_DEF;
 
     //ATKSPD
     public float Test_Basic_ATKSPD;
-    private float test_temp_atkspd;
-    public float Test_Temp_ATKSPD { set { if (value > 0)test_temp_atkspd = value; } get { return test_temp_atkspd; } }
-
-
+    public float Test_Temp_ATKSPD;
+    
     public float Test_Basic_CRI_Rate;
     public float Test_Temp_CRI_Rate;
     public float Test_Basic_CRI_Dmg;
