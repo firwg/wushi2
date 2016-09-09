@@ -316,7 +316,7 @@ public enum E_BuffEffectType
 
 
     //
-    E_divide,
+    E_DIVIDE,
 
     E_Debuff_Stun,//晕眩，生效时刻：获得回合之时。生效逻辑：取消本次当前回合。
     E_Debuff_Freeze,//冰冻，生效时刻：获得回合之时。生效逻辑：取消本次当前回合。

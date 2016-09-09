@@ -14,6 +14,10 @@ public interface AgentCallbackterface
     void GOAPGoalDeactivated(E_GOAPGoals goal);
 }
 
+
+/// <summary>
+/// Agent 是战斗中的通用的代理，负责
+/// </summary>
 [System.Serializable]
 public class Agent : MonoBehaviour
 {
@@ -61,7 +65,6 @@ public class Agent : MonoBehaviour
 
     [System.NonSerialized]
     public CharacterController CharacterController;
-
 
 	private GOAPManager m_GoalManager;
 	private Hashtable m_Actions = new Hashtable();

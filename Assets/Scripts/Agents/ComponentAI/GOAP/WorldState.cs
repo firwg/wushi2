@@ -10,6 +10,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// 世界状态的关键参数的参数类型
+/// </summary>
 public enum E_PropType
 {
 	E_INVALID = -1,
@@ -22,6 +26,9 @@ public enum E_PropType
     E_ORDER,
 }
 
+/// <summary>
+/// 世界状态的关键参数种类
+/// </summary>
 public enum E_PropKey
 {
 	E_INVALID = -1,
@@ -214,9 +221,14 @@ public class WorldStateProp
 
 }
 [System.Serializable]
+
+
 public class WorldState
 {
+    //世界状态存放数组
 	private WorldStateProp[] m_PropState = new WorldStateProp[(int)E_PropKey.E_COUNT];
+    
+    //世界状态开关，
 	private BitArray m_PropBitSet = new BitArray((int)E_PropKey.E_COUNT);
 
 	public WorldStateProp GetWSProperty(E_PropKey key) { return m_PropState[(int)key]; }
