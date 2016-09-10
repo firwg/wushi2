@@ -90,7 +90,7 @@ public class Agent : MonoBehaviour
     public GOAPGoal CurrentGOAPGoal { get { return m_GoalManager.CurrentGoal; } }
 
     public bool IsPlayer { get { return BlackBoard.IsPlayer; } }
-    public bool IsAlive { get { return BlackBoard.Health > 0 && GameObject.active; } }
+    public bool IsAlive { get { return BlackBoard.Health > 0 && GameObject.activeSelf; } }
     public bool IsVisible { get { return Renderer.isVisible; } }
     public bool IsAttacking { get { return false; } }
 

@@ -20,6 +20,7 @@ public class AgentOrder
         E_FAILED,
     }
 
+    //玩家操作类型
 	public enum E_OrderType
 	{
 		E_NONE,

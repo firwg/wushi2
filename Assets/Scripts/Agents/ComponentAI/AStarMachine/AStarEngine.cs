@@ -49,6 +49,8 @@ class AStarEngine : System.Object
 		short neighbour;
 		AStarNode neighbourNode;
 
+
+        //创建一个起始Node
 		CurrentNode = Map.CreateANode(End);
 		//Add the first node to the open list
 		Storage.AddToOpenList(CurrentNode,Map);

@@ -12,7 +12,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// 世界状态的关键参数的参数类型
+/// 世界状态属性的类型
 /// </summary>
 public enum E_PropType
 {
@@ -27,7 +27,7 @@ public enum E_PropType
 }
 
 /// <summary>
-/// 世界状态的关键参数种类
+/// 世界状态属性关键字
 /// </summary>
 public enum E_PropKey
 {
@@ -65,103 +65,143 @@ public enum RETURN_TYPES
 
 #region Prop Value
 
-public class Value
+public class Value<T>
 {
+
+    public T value;
+    public Value(T t)
+    {
+        value = t;
+    }
 
 }
 
 
-public class ValueVector : Value
-{
-	public UnityEngine.Vector3 Vector;
+//public class ValueVector : Value
+//{
+//    public UnityEngine.Vector3 Vector;
 
-	public ValueVector(UnityEngine.Vector3 vector) { Vector = vector; }
+//    public ValueVector(UnityEngine.Vector3 vector) { Vector = vector; }
 
-    public override string ToString() { return Vector.ToString(); }
-}
+//    public override string ToString() { return Vector.ToString(); }
+//}
 
-public class  ValueAgent: Value
-{
-	public Agent Agent;
+//public class  ValueAgent: Value
+//{
+//    public Agent Agent;
 
-	public ValueAgent(Agent a) { Agent = a; }
+//    public ValueAgent(Agent a) { Agent = a; }
 
-    public override string ToString() { return Agent.name; }
-}
+//    public override string ToString() { return Agent.name; }
+//}
 
-public class ValueBool: Value
-{
-	public bool Bool;
+//public class ValueBool: Value
+//{
+//    public bool Bool;
 
-	public ValueBool(bool b) { Bool = b; }
+//    public ValueBool(bool b) { Bool = b; }
 
-    public override string ToString() { return Bool.ToString(); }
-}
+//    public override string ToString() { return Bool.ToString(); }
+//}
 
-public class ValueFloat : Value
-{
-	public float Float;
+//public class ValueFloat : Value
+//{
+//    public float Float;
 
-	public ValueFloat(float f) { Float = f; }
+//    public ValueFloat(float f) { Float = f; }
 
-    public override string ToString() { return Float.ToString(); }
-}
+//    public override string ToString() { return Float.ToString(); }
+//}
 
-public class ValueInt : Value
-{
-	public int Int;
+//public class ValueInt : Value
+//{
+//    public int Int;
 
-	public ValueInt(int i) { Int = i;}
+//    public ValueInt(int i) { Int = i;}
 
-    public override string ToString() { return Int.ToString(); }
-}
+//    public override string ToString() { return Int.ToString(); }
+//}
 
-public class ValueEvent : Value
-{
-    public E_EventTypes Event;
+//public class ValueEvent : Value
+//{
+//    public E_EventTypes Event;
 
-    public ValueEvent(E_EventTypes eventType) { Event = eventType; }
+//    public ValueEvent(E_EventTypes eventType) { Event = eventType; }
 
-    public override string ToString() { return Event.ToString(); }
-}
+//    public override string ToString() { return Event.ToString(); }
+//}
 
-public class ValueOrder : Value
-{
-    public AgentOrder.E_OrderType  Order;
+//public class ValueOrder : Value
+//{
+//    public AgentOrder.E_OrderType  Order;
 
-    public ValueOrder(AgentOrder.E_OrderType order) { Order = order; }
+//    public ValueOrder(AgentOrder.E_OrderType order) { Order = order; }
 
-    public override string ToString() { return Order.ToString(); }
-}
+//    public override string ToString() { return Order.ToString(); }
+//}
 
 #endregion
 
+/// <summary>
+/// 世界状态属性
+/// </summary>
 [System.Serializable]
 public class WorldStateProp
 {
+    //属性关键字
 	public E_PropKey PropKey;// { get {return PropKey;} set {PropKey = value;} }
 	public string PropName { get { return PropKey.ToString(); } }
-	public System.Object PropValue;// { get { return PropState; } set {PropState = value;} }
+	public object PropValue;// { get { return PropState; } set {PropState = value;} }
 	public E_PropType PropType;
     public float Time;
 
-	public WorldStateProp(bool state) { PropValue = new ValueBool(state); PropType = E_PropType.E_BOOL; }
-	public WorldStateProp(int state) { PropValue = new ValueInt(state); PropType = E_PropType.E_INT; }
-	public WorldStateProp(float state) { PropValue = new ValueFloat(state); PropType = E_PropType.E_FLOAT; }
-	public WorldStateProp(Agent state) { PropValue = new ValueAgent(state); PropType = E_PropType.E_AGENT; }
-	public WorldStateProp(UnityEngine.Vector3 vector) { PropValue = new ValueVector(vector); PropType = E_PropType.E_VECTOR; }
-    public WorldStateProp(E_EventTypes eventType) { PropValue = new ValueEvent(eventType); PropType = E_PropType.E_EVENT; }
-    public WorldStateProp(AgentOrder.E_OrderType order ) { PropValue = new ValueOrder(order); PropType = E_PropType.E_ORDER; }
+    //public WorldStateProp(bool state) { PropValue = new ValueBool(state); PropType = E_PropType.E_BOOL; }
+    //public WorldStateProp(int state) { PropValue = new ValueInt(state); PropType = E_PropType.E_INT; }
+    //public WorldStateProp(float state) { PropValue = new ValueFloat(state); PropType = E_PropType.E_FLOAT; }
+    //public WorldStateProp(Agent state) { PropValue = new ValueAgent(state); PropType = E_PropType.E_AGENT; }
+    //public WorldStateProp(UnityEngine.Vector3 vector) { PropValue = new ValueVector(vector); PropType = E_PropType.E_VECTOR; }
+    //public WorldStateProp(E_EventTypes eventType) { PropValue = new ValueEvent(eventType); PropType = E_PropType.E_EVENT; }
+    //public WorldStateProp(AgentOrder.E_OrderType order ) { PropValue = new ValueOrder(order); PropType = E_PropType.E_ORDER; }
+
+    /// <summary>
+    /// 实例化
+    /// </summary>
+    /// <param name="t"></param>
+    public WorldStateProp(object t) 
+    { 
+        PropValue = t;
+        if (t.GetType() == typeof(int)) PropType = E_PropType.E_INT;
+        else if (t.GetType() == typeof(float)) PropType = E_PropType.E_FLOAT;
+        else if (t.GetType() == typeof(Agent)) PropType = E_PropType.E_AGENT;
+        else if (t.GetType() == typeof(bool)) PropType = E_PropType.E_BOOL;
+        else if (t.GetType() == typeof(E_EventTypes)) PropType = E_PropType.E_EVENT;
+        else if (t.GetType() == typeof(AgentOrder)) PropType = E_PropType.E_ORDER;
+        else if (t.GetType() == typeof(Vector3)) PropType = E_PropType.E_VECTOR;
+        else PropType = E_PropType.E_INVALID;
+    }
+
+    public object GetValue()
+    {
+        return PropValue;
+    }
 
 	//public static implicit operator WorldStateProp(bool state) { return new WorldStateProp(state);}
 
-	public bool GetBool() { ValueBool b = PropValue as ValueBool; return b != null ? b.Bool : false; }
-	public int GetInt() { ValueInt v = PropValue as ValueInt; return v != null ? v.Int : 0; }
-	public float GetFloat() { ValueFloat v = PropValue as ValueFloat; return v != null ? v.Float : 0.0f; }
-	public UnityEngine.Vector3 GetVector() { ValueVector v = PropValue as ValueVector; return v != null ? v.Vector : Vector3.zero; }
-	public Agent GetAgent() { ValueAgent v = PropValue as ValueAgent; return v != null ? v.Agent : null; }
-    public E_EventTypes GetEvent() { ValueEvent v = PropValue as ValueEvent; return v != null ? v.Event : E_EventTypes.None; }
-    public AgentOrder.E_OrderType GetOrder() { ValueOrder v = PropValue as ValueOrder; return v != null ? v.Order : AgentOrder.E_OrderType.E_NONE; }
+    //public bool GetBool() { ValueBool b = PropValue as ValueBool; return b != null ? b.Bool : false; }
+    //public int GetInt() { ValueInt v = PropValue as ValueInt; return v != null ? v.Int : 0; }
+    //public float GetFloat() { ValueFloat v = PropValue as ValueFloat; return v != null ? v.Float : 0.0f; }
+    //public UnityEngine.Vector3 GetVector() { ValueVector v = PropValue as ValueVector; return v != null ? v.Vector : Vector3.zero; }
+    //public Agent GetAgent() { ValueAgent v = PropValue as ValueAgent; return v != null ? v.Agent : null; }
+    //public E_EventTypes GetEvent() { ValueEvent v = PropValue as ValueEvent; return v != null ? v.Event : E_EventTypes.None; }
+    //public AgentOrder.E_OrderType GetOrder() { ValueOrder v = PropValue as ValueOrder; return v != null ? v.Order : AgentOrder.E_OrderType.E_NONE; }
+
+    public bool GetBool() { bool b = (bool)PropValue ; return b != null ? b : false; }
+    public int GetInt() { int v = (int)PropValue ; return v != null ? v : 0; }
+    public float GetFloat() { float v = (float)PropValue ; return v != null ? v : 0.0f; }
+    public UnityEngine.Vector3 GetVector() { Vector3 v = (Vector3)PropValue ; return v != null ? v : Vector3.zero; }
+    public Agent GetAgent() { Agent v = PropValue as Agent; return v != null ? v : null; }
+    public E_EventTypes GetEvent() { E_EventTypes v = (E_EventTypes)PropValue; return v != null ? v : E_EventTypes.None; }
+    public AgentOrder.E_OrderType GetOrder() { AgentOrder.E_OrderType v = (AgentOrder.E_OrderType)PropValue ; return v != null ? v : AgentOrder.E_OrderType.E_NONE; }
 
 	public override bool Equals(System.Object o)
 	{
@@ -171,25 +211,45 @@ public class WorldStateProp
 			if (this.PropType != otherProp.PropType)
 				return false;// different typs of values
 
-			switch (this.PropType)
-			{
-			case E_PropType.E_BOOL:
-				return (this.PropValue as ValueBool).Bool == (otherProp.PropValue as ValueBool).Bool;
-			case E_PropType.E_INT:
-				return (this.PropValue as ValueInt).Int == (otherProp.PropValue as ValueInt).Int;
-			case E_PropType.E_FLOAT:
-				return (this.PropValue as ValueFloat).Float == (otherProp.PropValue as ValueFloat).Float;
-			case E_PropType.E_VECTOR:
-				return (this.PropValue as ValueVector).Vector == (otherProp.PropValue as ValueVector).Vector;
-			case E_PropType.E_AGENT:
-				return (this.PropValue as ValueAgent).Agent == (otherProp.PropValue as ValueAgent).Agent;
-			case E_PropType.E_EVENT:
-				return (this.PropValue as ValueEvent).Event == (otherProp.PropValue as ValueEvent).Event;
-            case E_PropType.E_ORDER:
-                return (this.PropValue as ValueOrder).Order == (otherProp.PropValue as ValueOrder).Order;
-            default:
-				return false;
-			}
+            //switch (this.PropType)
+            //{
+            //case E_PropType.E_BOOL:
+            //    return (this.PropValue as ValueBool).Bool == (otherProp.PropValue as ValueBool).Bool;
+            //case E_PropType.E_INT:
+            //    return (this.PropValue as ValueInt).Int == (otherProp.PropValue as ValueInt).Int;
+            //case E_PropType.E_FLOAT:
+            //    return (this.PropValue as ValueFloat).Float == (otherProp.PropValue as ValueFloat).Float;
+            //case E_PropType.E_VECTOR:
+            //    return (this.PropValue as ValueVector).Vector == (otherProp.PropValue as ValueVector).Vector;
+            //case E_PropType.E_AGENT:
+            //    return (this.PropValue as ValueAgent).Agent == (otherProp.PropValue as ValueAgent).Agent;
+            //case E_PropType.E_EVENT:
+            //    return (this.PropValue as ValueEvent).Event == (otherProp.PropValue as ValueEvent).Event;
+            //case E_PropType.E_ORDER:
+            //    return (this.PropValue as ValueOrder).Order == (otherProp.PropValue as ValueOrder).Order;
+            //default:
+            //    return false;
+            //}
+
+            switch (this.PropType)
+            {
+                case E_PropType.E_BOOL:
+                    return this.PropValue == otherProp.PropValue;
+                case E_PropType.E_INT:
+                    return this.PropValue == otherProp.PropValue;
+                case E_PropType.E_FLOAT:
+                    return this.PropValue == otherProp.PropValue;
+                case E_PropType.E_VECTOR:
+                    return this.PropValue == otherProp.PropValue;
+                case E_PropType.E_AGENT:
+                    return this.PropValue == otherProp.PropValue;
+                case E_PropType.E_EVENT:
+                    return this.PropValue == otherProp.PropValue;
+                case E_PropType.E_ORDER:
+                    return this.PropValue == otherProp.PropValue;
+                default:
+                    return false;
+            }
 		}
 
 		return false;
@@ -200,18 +260,18 @@ public class WorldStateProp
 		return (this as object).GetHashCode();
 	}
 
-	static public bool operator ==(WorldStateProp prop, WorldStateProp other)
-	{
-		if ((prop as object) == null)
-			return (other as object) == null;
+    //static public bool operator ==(WorldStateProp prop, WorldStateProp other)
+    //{
+    //    if ((prop as object) == null)
+    //        return (other as object) == null;
 
-		return prop.Equals(other as object);
-	}
+    //    return prop.Equals(other as object);
+    //}
 
-	static public bool operator !=(WorldStateProp prop, WorldStateProp other)
-	{
-		return !(prop == other);
-	}
+    //static public bool operator !=(WorldStateProp prop, WorldStateProp other)
+    //{
+    //    return !(prop == other);
+    //}
 
 
     public override string ToString()
@@ -220,101 +280,129 @@ public class WorldStateProp
     }
 
 }
+
+/// <summary>
+/// 世界状态
+/// </summary>
 [System.Serializable]
-
-
 public class WorldState
 {
-    //世界状态存放数组
+     
+    //世界状态属性存放数组
 	private WorldStateProp[] m_PropState = new WorldStateProp[(int)E_PropKey.E_COUNT];
     
-    //世界状态开关，
+    //世界状态属性开关，每改变一次世界状态的属性，对应的属性的开关设置为true
 	private BitArray m_PropBitSet = new BitArray((int)E_PropKey.E_COUNT);
 
+    /// <summary>
+    /// 获得对应的世界状态
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
 	public WorldStateProp GetWSProperty(E_PropKey key) { return m_PropState[(int)key]; }
+
+    /// <summary>
+    /// 设置对应的状态开关
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
 	public bool IsWSPropertySet(E_PropKey key) { return m_PropBitSet.Get((int)key); }
 
 	public E_PropType GetWSPropertyType(E_PropType key) { return E_PropType.E_BOOL; } // only bool now
 
 
 
-	public void SetWSProperty(E_PropKey key, bool value)
-	{
+    public void SetWSProperty(E_PropKey key, object t)
+    {
         int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+        Debug.Log("(int)key=" + (int)key);
+        Debug.Log("m_PropState.count=" + m_PropState.Length);
+        if (m_PropState[index] != null)
+            WorldStatePropFactory.Return(m_PropState[index]);
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-		m_PropBitSet.Set(index, true); // set info that key is set
+        m_PropState[index] = WorldStatePropFactory.Create(key, t);
+        m_PropBitSet.Set(index, true); // set info that key is set
+    }
 
 
-        //for (int i = 0; i < m_PropBitSet.Count; i++)
-        //{
-        //    Debug.Log("m_PropBitSet[" + i + "].GetHashCode()=" + m_PropBitSet[i].GetHashCode());
-        //}
 
-	}
+    //public void SetWSProperty(E_PropKey key, bool value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
 
-	public void SetWSProperty(E_PropKey key, float value)
-	{
-        int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    m_PropBitSet.Set(index, true); // set info that key is set
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-		m_PropBitSet.Set(index, true); // set info that key is set
-	}
 
-	public void SetWSProperty(E_PropKey key, int value)
-	{
-        int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+    //    //for (int i = 0; i < m_PropBitSet.Count; i++)
+    //    //{
+    //    //    Debug.Log("m_PropBitSet[" + i + "].GetHashCode()=" + m_PropBitSet[i].GetHashCode());
+    //    //}
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-		m_PropBitSet.Set(index, true); // set info that key is set
-	}
+    //}
 
-	public void SetWSProperty(E_PropKey key, Agent value)
-	{
-        int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+    //public void SetWSProperty(E_PropKey key, float value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-		m_PropBitSet.Set(index, true); // set info that key is set
-	}
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    m_PropBitSet.Set(index, true); // set info that key is set
+    //}
 
-	public void SetWSProperty(E_PropKey key, UnityEngine.Vector3 value)
-	{
-        int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+    //public void SetWSProperty(E_PropKey key, int value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-		m_PropBitSet.Set(index, true); // set info that key is set
-	}
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    m_PropBitSet.Set(index, true); // set info that key is set
+    //}
 
-	public void SetWSProperty(E_PropKey key, E_EventTypes value)
-	{
-        int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+    //public void SetWSProperty(E_PropKey key, Agent value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-		m_PropBitSet.Set(index, true); // set info that key is set
-	}
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    m_PropBitSet.Set(index, true); // set info that key is set
+    //}
 
-    public void SetWSProperty(E_PropKey key, AgentOrder.E_OrderType value)
-	{
-        int index = (int)key;
-		if (m_PropState[index] != null)
-			WorldStatePropFactory.Return(m_PropState[index]);
+    //public void SetWSProperty(E_PropKey key, UnityEngine.Vector3 value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
 
-		m_PropState[index] = WorldStatePropFactory.Create(key, value);
-        //Debug.Log("m_PropState[index] ="+m_PropState[index].ToString());
-		m_PropBitSet.Set(index, true); // set info that key is set
-	}
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    m_PropBitSet.Set(index, true); // set info that key is set
+    //}
+
+    //public void SetWSProperty(E_PropKey key, E_EventTypes value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
+
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    m_PropBitSet.Set(index, true); // set info that key is set
+    //}
+
+    //public void SetWSProperty(E_PropKey key, AgentOrder.E_OrderType value)
+    //{
+    //    int index = (int)key;
+    //    if (m_PropState[index] != null)
+    //        WorldStatePropFactory.Return(m_PropState[index]);
+
+    //    m_PropState[index] = WorldStatePropFactory.Create(key, value);
+    //    //Debug.Log("m_PropState[index] ="+m_PropState[index].ToString());
+    //    m_PropBitSet.Set(index, true); // set info that key is set
+    //}
 
 
     public void SetWSProperty(WorldStateProp other)
@@ -322,33 +410,34 @@ public class WorldState
         if (other == null)
             return;
 
-        switch (other.PropType)
-        {
-            case E_PropType.E_BOOL:
-                SetWSProperty(other.PropKey, other.GetBool());
-                break;
-            case E_PropType.E_INT:
-                SetWSProperty(other.PropKey, other.GetInt());
-                break;
-            case E_PropType.E_FLOAT:
-                SetWSProperty(other.PropKey, other.GetFloat());
-                break;
-            case E_PropType.E_VECTOR:
-                SetWSProperty(other.PropKey, other.GetVector());
-                break;
-            case E_PropType.E_AGENT:
-                SetWSProperty(other.PropKey, other.GetAgent());
-                break;
-            case E_PropType.E_EVENT:
-                SetWSProperty(other.PropKey, other.GetEvent());
-                break;
-            case E_PropType.E_ORDER:
-                SetWSProperty(other.PropKey, other.GetEvent());
-                break;
-            default:
-                Debug.LogError("error in SetWSProperty " + other.PropKey.ToString());
-                break;
-        }
+        SetWSProperty(other.PropKey, other.GetValue());
+        //switch (other.PropType)
+        //{
+        //    case E_PropType.E_BOOL:
+        //        SetWSProperty(other.PropKey, other.GetBool());
+        //        break;
+        //    case E_PropType.E_INT:
+        //        SetWSProperty(other.PropKey, other.GetInt());
+        //        break;
+        //    case E_PropType.E_FLOAT:
+        //        SetWSProperty(other.PropKey, other.GetFloat());
+        //        break;
+        //    case E_PropType.E_VECTOR:
+        //        SetWSProperty(other.PropKey, other.GetVector());
+        //        break;
+        //    case E_PropType.E_AGENT:
+        //        SetWSProperty(other.PropKey, other.GetAgent());
+        //        break;
+        //    case E_PropType.E_EVENT:
+        //        SetWSProperty(other.PropKey, other.GetEvent());
+        //        break;
+        //    case E_PropType.E_ORDER:
+        //        SetWSProperty(other.PropKey, other.GetEvent());
+        //        break;
+        //    default:
+        //        Debug.LogError("error in SetWSProperty " + other.PropKey.ToString());
+        //        break;
+        //}
     }
 
     public void ResetWSProperty(E_PropKey key)
@@ -449,3 +538,7 @@ public class WorldState
         return s;
     }
 }
+
+
+
+

@@ -19,10 +19,12 @@ class AStarGOAPMap : AStarMap
 	
 	public void Initialise(Agent ai)
 	{
-		Ai = ai;
+		Ai = ai; 
 		m_Neighbours.Clear();
 	}
 	
+
+
 	public void BuildActionsEffectsTable()
 	{
 		//Go through every effect and add all the actions that have this effect to the effectsTable
@@ -33,7 +35,7 @@ class AStarGOAPMap : AStarMap
 			if (action == null)
 				continue;
 
-			//go through all world effects
+			//go through all world effects 
 			for(uint j = 0;j < (int)E_PropKey.E_COUNT;j++)
 			{	
 				if (action.WorldEffects.IsWSPropertySet((E_PropKey)j)) // if set

@@ -465,7 +465,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
         if (CurrentAttackAction != null && CurrentAttackAction.IsActive() == false)
         {// no continue in combos !!!
-            if (BufferedOrders.Count == 0 && Owner.WorldState.GetWSProperty(E_PropKey.E_ORDER).GetOrder() != AgentOrder.E_OrderType.E_ATTACK)
+            if (BufferedOrders.Count == 0 && (AgentOrder.E_OrderType)Owner.WorldState.GetWSProperty(E_PropKey.E_ORDER).GetValue() != AgentOrder.E_OrderType.E_ATTACK)
             {
                 //Debug.Log("clear combo progress " + CurrentAttackAction.Data.AnimName);
                 ComboProgress.Clear();
@@ -681,7 +681,7 @@ public class ComponentPlayer : MonoBehaviour, IActionHandler
 
     public bool CouldAddnewOrder()
     {
-        AgentOrder.E_OrderType order =  Owner.WorldState.GetWSProperty(E_PropKey.E_ORDER).GetOrder();
+        AgentOrder.E_OrderType order = (AgentOrder.E_OrderType)Owner.WorldState.GetWSProperty(E_PropKey.E_ORDER).GetValue();
 
         if (order == AgentOrder.E_OrderType.E_DODGE || order == AgentOrder.E_OrderType.E_ATTACK || order == AgentOrder.E_OrderType.E_USE)
             return false;

@@ -44,7 +44,7 @@ public abstract class Buff : System.Object
         Spawner = _spawner;
         Onwer = _onwer;
         buffeffecttype = _effecttype;
-        if ((int)_effecttype > (int)E_BuffEffectType.E_divide) BuffType = E_BuffType.E_HarmfulEffectType;
+        if ((int)_effecttype > (int)E_BuffEffectType.E_DIVIDE) BuffType = E_BuffType.E_HarmfulEffectType;
         else BuffType = E_BuffType.E_BeneficialEffectType;
     }
 

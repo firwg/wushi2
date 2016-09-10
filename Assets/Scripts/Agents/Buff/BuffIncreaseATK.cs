@@ -11,12 +11,12 @@ public class BuffIncreaseATK : Buff
 
     public override void Active()
     {
-        Onwer.BlackBoard.Test_Temp_ATK += Onwer.BlackBoard.Test_Basic_ATK * 0.5f;
+        //Onwer.BlackBoard.Monster_Basic_ATK += Onwer.BlackBoard.Test_Basic_ATK * 0.5f;
     }
 
     public override void Deactivate()
     {
-        Onwer.BlackBoard.Test_Temp_ATK -= Onwer.BlackBoard.Test_Basic_ATK * 0.5f;
+       // Onwer.BlackBoard.Test_Temp_ATK -= Onwer.BlackBoard.Test_Basic_ATK * 0.5f;
     }
 
 

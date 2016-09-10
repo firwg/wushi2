@@ -313,7 +313,7 @@ public class BlackBoard
 
     public bool IsOrderAddPossible(AgentOrder.E_OrderType orderType)
     {
-        AgentOrder.E_OrderType currentOrder = Owner.WorldState.GetWSProperty(E_PropKey.E_ORDER).GetOrder();
+        AgentOrder.E_OrderType currentOrder = (AgentOrder.E_OrderType)Owner.WorldState.GetWSProperty(E_PropKey.E_ORDER).GetValue();
 
         if(orderType == AgentOrder.E_OrderType.E_DODGE && currentOrder != AgentOrder.E_OrderType.E_DODGE && currentOrder != AgentOrder.E_OrderType.E_USE)
             return true;
@@ -552,12 +552,12 @@ public class BlackBoard
         }
 
 
-        if (DesiredTarget && Owner.WorldState.GetWSProperty(E_PropKey.E_AHEAD_OF_ENEMY).GetBool())
+        if (DesiredTarget && Owner.WorldState.GetWSProperty(E_PropKey.E_AHEAD_OF_ENEMY).GetValue() !=null)
             SetFear(Fear + FearModificator * Time.fixedDeltaTime);
         else
             SetFear(Fear - FearModificator * Time.fixedDeltaTime);
 
-        if (Owner.WorldState.GetWSProperty(E_PropKey.E_IN_BLOCK).GetBool() != true)
+        if ((bool)Owner.WorldState.GetWSProperty(E_PropKey.E_IN_BLOCK).GetValue() != true)
             SetDodge(Dodge + Owner.BlackBoard.DodgeModificator * Time.fixedDeltaTime);
     }
 

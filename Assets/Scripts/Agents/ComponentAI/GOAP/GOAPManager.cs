@@ -469,6 +469,7 @@ class GOAPManager : System.Object
 		Storage.ResetStorage(Map);
 
 		AStar.End = -1;
+
 		AStar.RunAStar(Owner);
 
 		AStarNode currNode = AStar.CurrentNode;
